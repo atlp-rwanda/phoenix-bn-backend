@@ -1,0 +1,28 @@
+{
+  "name": "atlp-project_phase",
+  "version": "1.0.0",
+  "description": "Make company global travel and accommodation easy and convenient for the strong workforce of savvy members of staff, by leveraging the modern web.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node ./src/index",
+    "lint": "./node_modules/.bin/eslint src/",
+    "dev": "./node_modules/.bin/eslint src/ --fix && npm start"
+  },
+  "author": "Team Phoniex",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "swagger-jsdoc": "^4.2.3",
+    "swagger-ui-express": "^4.1.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.4"
+  }
+}
