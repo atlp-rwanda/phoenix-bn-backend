@@ -1,6 +1,6 @@
 {
     "env": {
-        "browser": true,
+        "node": true,
         "es2021": true
     },
     "extends": [
@@ -13,6 +13,7 @@
     "rules": {
         "semi": ["error", "always"],
         "quotes": ["error", "single"],
-        "no-console": "off"
+        "no-console": "off",
+        "import/prefer-default-export": "off"
     }
 }

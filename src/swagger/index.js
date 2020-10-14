@@ -1,5 +1,6 @@
-import {welcome} from './welcome.swagger';
-const paths = {...welcome}
+import { welcome } from './welcome.swagger';
+
+const paths = { ...welcome };
 const config = {
   swagger: '2.0',
   info: {
@@ -13,6 +14,6 @@ const config = {
     'http',
     'https',
   ],
-  paths
+  paths,
 };
 export default config;
