@@ -6,6 +6,6 @@
 
 - Making travel and accomodation easy and convinient
 
-## url
+## Access Live App
 
-This the heroku staging Api url https://phoenix-bn-staging.herokuapp.com/
+https://phoenix-bn-staging.herokuapp.com/
