@@ -1,10 +1,11 @@
+/* eslint-disable no-undef */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../app';
 
 chai.should();
 chai.use(chaiHttp);
-const welcomeTest=() => {
+const welcomeTest = () => {
   describe('GET /', () => {
     it('It should get welcoming message', (done) => {
       chai.request(server)
@@ -16,5 +17,5 @@ const welcomeTest=() => {
         });
     });
   });
-}
+};
 export default welcomeTest;
