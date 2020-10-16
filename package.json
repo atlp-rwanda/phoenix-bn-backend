@@ -4,9 +4,8 @@
   "description": "Make company global travel and accommodation easy and convenient for the strong workforce of savvy members of staff, by leveraging the modern web.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node ./src/index",
+    "start": "npm run db:migrate && npm run db:seed:undo:all && npm run db:seed && nodemon --exec babel-node ./src/index.js",
     "lint": "./node_modules/.bin/eslint src/",
-    "dev": "./node_modules/.bin/eslint src/ --fix && npm run db:migrate && npm run db:seed:undo:all && npm run db:seed && npm start",
     "db:migrate": "./node_modules/.bin/sequelize db:migrate",
     "db:migrate:undo:all": "./node_modules/.bin/sequelize db:migrate:undo:all",
     "db:seed": "./node_modules/.bin/sequelize db:seed:all",

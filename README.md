@@ -4,7 +4,7 @@
 
 ## Vision
 
-- Making travel and accomodation easy and convinient
+ Making travel and accomodation easy and convinient
 
 ## Access Live App
 
