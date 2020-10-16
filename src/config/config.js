@@ -22,7 +22,7 @@ module.exports = {
     database: DB_NAME,
     host: DB_HOST,
     port: DB_PORT,
-    dialect: DB_DIALECT,
+    dialect: 'postgres',
   },
   test: {
     username: DB_USERNAME_TEST,
@@ -30,7 +30,7 @@ module.exports = {
     database: DB_NAME_TEST,
     host: DB_HOST_TEST,
     port: DB_PORT_TEST,
-    dialect: DB_DIALECT_TEST,
+    dialect: 'postgres',
   },
   production: {
     username: DB_USER,
@@ -38,6 +38,6 @@ module.exports = {
     database: DB_NAME,
     host: DB_HOST,
     port: DB_PORT,
-    dialect: DB_DIALECT,
+    dialect: 'postgres',
   },
 };

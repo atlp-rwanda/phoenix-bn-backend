@@ -14,6 +14,12 @@
         "semi": ["error", "always"],
         "quotes": ["error", "single"],
         "no-console": "off",
+        "no-unused-vars":"off",
+        "no-mixed-spaces-and-tabs":"off",
+        "no-tabs":"off",
+        "consistent-return":"off",
+        "no-return-await":"off",
+        "max-len":"off",
         "import/prefer-default-export": "off"
     }
 }

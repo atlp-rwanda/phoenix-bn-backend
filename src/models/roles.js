@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 const {
   Model,
 } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Roles extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,16 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Roles.belongsTo(models.Users);
     }
   }
-  User.init({
-    fullName: DataTypes.STRING,
-    userName: DataTypes.STRING,
-    password: DataTypes.STRING,
-    email: DataTypes.STRING,
+  Roles.init({
+    name: DataTypes.STRING,
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Roles',
   });
-  return User;
+  return Roles;
 };
