@@ -1,20 +1,43 @@
 import 'dotenv/config';
 
+const {
+  DB_USER,
+  DB_PASSWORD,
+  DB_NAME,
+  DB_HOST,
+  DB_PORT,
+  DB_DIALECT,
+  DB_USERNAME_TEST,
+  DB_PASSWORD_TEST,
+  DB_NAME_TEST,
+  DB_HOST_TEST,
+  DB_PORT_TEST,
+  DB_DIALECT_TEST,
+} = process.env;
+
 module.exports = {
   development: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: process.env.DB_DIALECT,
+    username: DB_USER,
+    password: DB_PASSWORD,
+    database: DB_NAME,
+    host: DB_HOST,
+    port: DB_PORT,
+    dialect: DB_DIALECT,
   },
   test: {
-    username: process.env.DB_USERNAME_TEST,
-    password: process.env.DB_PASSWORD_TEST,
-    database: process.env.DB_NAME_TEST,
-    host: process.env.DB_HOST_TEST,
-    port: process.env.TEST,
-    dialect: process.env.DB_DIALECT_TEST,
+    username: DB_USERNAME_TEST,
+    password: DB_PASSWORD_TEST,
+    database: DB_NAME_TEST,
+    host: DB_HOST_TEST,
+    port: DB_PORT_TEST,
+    dialect: DB_DIALECT_TEST,
+  },
+  production: {
+    username: DB_USER,
+    password: DB_PASSWORD,
+    database: DB_NAME,
+    host: DB_HOST,
+    port: DB_PORT,
+    dialect: DB_DIALECT,
   },
 };
