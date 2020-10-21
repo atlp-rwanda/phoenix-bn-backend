@@ -1,5 +1,5 @@
 import { welcome } from './welcome.swagger';
-import { manualSignup } from './manualSignup';
+import { manualSignup } from './manualSignup.swagger';
 
 const paths = { ...welcome, ...manualSignup };
 const config = {

@@ -2,7 +2,7 @@ import signupvalidateSchema from '../../helpers/validateSchema';
 import userService from '../../services/userService';
 import Util from '../../helpers/utils';
 import { joiValidationError } from '../../helpers/joiErrorTemplate';
-import { decodeToken } from './verifications/verifyToken';
+import { decodeToken } from '../verifications/verifyToken';
 
 const util = new Util();
 export default class validator {
