@@ -2,21 +2,22 @@ import dotenv from 'dotenv';
 import Util from '../helpers/utils';
 import { newJwtToken } from '../helpers/tokenGenerator';
 import { transporter } from '../helpers/mailHelper';
+import { confirmEmail } from '../services/templates/confirmEmail';
 
 dotenv.config();
 
 const util = new Util();
 export const sendLink = async (res, userInfo) => {
   try {
-    const { email, id } = userInfo;
+    const { email, id, firstName } = userInfo;
     const payload = { userEmail: email, userId: id };
     const tokenLink = await newJwtToken(payload, '72h');
+    const emailTemplate = confirmEmail({ name: firstName, token: tokenLink });
     const mailOptions = {
       from: process.env.EMAIL,
       to: email,
       subject: 'Account Verification',
-      html: `Hello! <br> click  <a href='https://phoenix-bn-staging.herokuapp.com/users/verify/${tokenLink}'>here</a> to verify your email</br> or paste this link into your browser
-      <a href='https://phoenix-bn-staging.herokuapp.com/users/verify/${tokenLink}'>https://phoenix-bn-staging.herokuapp.com/users/verify/${tokenLink}</a> `,
+      html: emailTemplate,
     };
     const emailsent = await transporter.sendMail(mailOptions);
     if (emailsent) {
