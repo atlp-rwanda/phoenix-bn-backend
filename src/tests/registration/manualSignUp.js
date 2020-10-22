@@ -8,21 +8,21 @@ chai.use(chaiHttp);
 let token = '';
 
 const invalidData = {
-  email: 'muhire416@gmail.com',
+  email: 'faustin@gmail.com',
   password: 'password123',
   confirmPassword: 'password123',
 };
 const validData = {
   firstName: 'heritier',
   lastName: 'UMUHIRE',
-  email: 'muhire416@gmail.com',
+  email: 'faustin@gmail.com',
   password: 'password123',
   confirmPassword: 'password123',
 };
 const wrongpassword = {
   firstName: 'heritier',
   lastName: 'UMUHIRE',
-  email: 'muhire416@gmail.com',
+  email: 'faustin@gmail.com',
   password: 'password123',
   confirmPassword: 'passwor',
 };
