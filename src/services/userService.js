@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+import { Op } from 'sequelize';
 import models from '../models';
 
 const { Users } = models;
@@ -40,7 +42,7 @@ class UserService {
    */
   static findByEmail(prop) {
     return Users.findOne({
-      where: prop,
+      where: { email: prop },
     });
   }
 

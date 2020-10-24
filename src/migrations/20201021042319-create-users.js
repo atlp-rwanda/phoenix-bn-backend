@@ -47,6 +47,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      socialId: {
+        type: Sequelize.STRING,
+      },
+      provider: {
+        type: Sequelize.STRING,
+      },
+      authToken: {
+        type: Sequelize.STRING,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
