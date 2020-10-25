@@ -9,6 +9,7 @@ import {
   sendPasswordResetLink,
 } from '../utils/sendPasswordLInk';
 import 'dotenv/config';
+import { decodeToken } from '../middlewares/verifications/verifyToken';
 
 const util = new Util();
 export default class user {
@@ -148,17 +149,22 @@ export default class user {
       const { lastName } = req.body;
       const { email } = req.body;
       const { RoleId } = req.body;
+      const data = await decodeToken(req.headers.authorization);
+      const userId = data.RoleId;
+      const updateUser = {};
       const prop = {
         id: req.params.id,
+      };
+      if (userId === 1) {
+        if (firstName) updateUser.firstName = firstName;
+        if (lastName) updateUser.lastName = lastName;
+        if (email) updateUser.email = email;
+        if (RoleId) updateUser.RoleId = RoleId;
+      } else {
+        util.setError(500, 'You can\'t update User role');
+        return util.send(res);
       }
-
-      const updateUser = {};
-      if (firstName) updateUser.firstName = firstName;
-      if (lastName) updateUser.lastName = lastName;
-      if (email) updateUser.email = email;
-      if (RoleId) updateUser.RoleId = RoleId;
-
-      const updatedUser = await userService.updateAtt(updateUser, prop)
+      const updatedUser = await userService.updateAtt(updateUser, prop);
       util.setSuccess(200, 'User updated successfully', updateUser);
       return util.send(res);
     } catch (error) {
