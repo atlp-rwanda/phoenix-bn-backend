@@ -136,9 +136,13 @@ export default class validator {
     try {
       const data = await decodeToken(req.headers.authorization);
       const { RoleId } = data;
-      const permName = req.headers.permissionName;
-      const perm = await permissionService.findByName(permName);
-      console.log(perm);
+      const permName = req.headers.permissionname;
+      if (!permName) {
+        util.setError(500, 'this endpoint requires a permissionName header');
+        return util.send(res);
+      }
+      const perm = await permissionService.findByName({ name: permName });
+      console.log(perm.id);
       const allowedPermissions = [];
       if (RoleId === 1) {
         const rolePermissions = await rolePermissionService.getRolePermissions();
@@ -163,9 +167,8 @@ export default class validator {
         });
         util.setSuccess(200, 'Successfully retrieved Role_permission', allowedPermissions);
       }
-      return res.send(req);
-      // res.userPermission = allowedPermissions;
-      // next();
+      res.userPermission = allowedPermissions;
+      next();
     } catch (error) {
       util.setError(500, error.message);
       return util.send(res);
