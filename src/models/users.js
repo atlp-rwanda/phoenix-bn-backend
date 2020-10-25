@@ -1,3 +1,4 @@
+const { string, date } = require('joi');
 const {
   Model,
 } = require('sequelize');

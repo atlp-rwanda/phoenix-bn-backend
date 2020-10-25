@@ -34,7 +34,7 @@ export const joiValidationError = (req, res, next, error) => {
       error.details[0].message
         .replace('/', '')
         .replace(/"/g, '')
-        .includes('passwordConfirm')
+        .includes('confirmPassword')
     ) {
       const Error = {
         error: 'passwords don\'t match',

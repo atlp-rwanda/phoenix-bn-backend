@@ -1,7 +1,10 @@
+import dotenv from 'dotenv';
 import { welcome } from './welcome.swagger';
 import { manualSignup } from './manualSignup.swagger';
+import { resetPassword } from './passwordReset.swagger';
 
-const paths = { ...welcome, ...manualSignup };
+dotenv.config();
+const paths = { ...welcome, ...manualSignup, ...resetPassword };
 const config = {
   swagger: '2.0',
   info: {
@@ -9,7 +12,7 @@ const config = {
     version: '1.0.0',
     title: 'Barefoot Nomad',
   },
-  host: 'localhost:5000',
+  host: process.env.HOST.replace('http://', '') || process.env.HOST.replace('https://', ''),
   basePath: '/',
   schemes: [
     'http',
