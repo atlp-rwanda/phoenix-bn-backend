@@ -151,4 +151,18 @@ export default class user {
       return util.send(res);
     }
   }
+  static async userLogout(req,res){
+    try {
+      const queryResult = await userService.updateAtt(
+        { authToken: null },
+        { id: res.id },
+      );
+      util.setSuccess('200','Logout successful');
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+    
+  }
 }

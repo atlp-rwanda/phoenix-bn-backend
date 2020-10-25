@@ -5,6 +5,9 @@ import { resetPassword } from './passwordReset.swagger';
 
 dotenv.config();
 const paths = { ...welcome, ...manualSignup, ...resetPassword };
+import {logout} from './userLogout.swagger';
+
+const paths = { ...welcome, ...manualSignup,...logout};
 const config = {
   swagger: '2.0',
   info: {
