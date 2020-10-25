@@ -142,7 +142,6 @@ export default class validator {
         return util.send(res);
       }
       const perm = await permissionService.findByName({ name: permName });
-      console.log(perm.id);
       const allowedPermissions = [];
       if (RoleId === 1) {
         const rolePermissions = await rolePermissionService.getRolePermissions();
@@ -167,8 +166,13 @@ export default class validator {
         });
         util.setSuccess(200, 'Successfully retrieved Role_permission', allowedPermissions);
       }
-      res.userPermission = allowedPermissions;
-      next();
+      if (allowedPermissions.indexOf(perm.id) !== -1) {
+        res.userPermission = allowedPermissions;
+        next();
+      } else {
+        util.setError(500, 'Unauthorized access');
+        return util.send(res);
+      }
     } catch (error) {
       util.setError(500, error.message);
       return util.send(res);

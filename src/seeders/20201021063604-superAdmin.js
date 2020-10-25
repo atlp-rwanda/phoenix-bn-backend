@@ -27,6 +27,14 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     }], {});
+    await queryInterface.bulkInsert('Users', [{
+      email: 'requester@gmail.com',
+      password: '$2b$10$GBZgVGM5YDiE2JmhzBWxQuhTARsPQURZFQ7Y0.MsR5M6mqR.EzQ8u',
+      RoleId: 4,
+      isVerified: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }], {});
   },
 
   down: async (queryInterface, Sequelize) => {
