@@ -1,113 +1,37 @@
 /* eslint-disable no-undef */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import { response } from 'express';
 import server from '../../app';
 
 chai.should();
 chai.use(chaiHttp);
-// let token = '';
+const adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImJhcmVmb290QGdtYWlsLmNvbSIsImlkIjoyNSwiUm9sZUlkIjoxLCJpYXQiOjE2MDM2NjYwNTksImV4cCI6MTYwMzY2OTY1OX0.eN5SAU1d8CZFykQG_kOLKNdCkcBPC6QQzOsfHloY3o0';
+const demoPermission = 'user';
 const permissionTest = () => {
   describe('TEST ACCESSING PERMISSION API WITH USER', () => {
     it('It should not allow user other than superAdmin to access the apis', (done) => {
       chai.request(server)
         .get('/api/v1/permissions')
         .end((err, response) => {
-          response.should.have.status(400);
+          response.should.have.status(500);
+          done();
+        });
+    });
+  });
+  describe('TEST FOR ADDING PERMISSION', () => {
+    it('It should allow saving permission with success', (done) => {
+      chai.request(server)
+        .post('/api/v1/permissions/save')
+        .send(demoPermission)
+        .set('authorization', adminToken)
+        .end((err, response) => {
+          response.should.have.status(200);
+          response.should.be.a('object');
           done();
         });
     });
   });
 };
-// const SignUpTest = () => {
-//   describe('TEST USER REGISTRATION WITH EMAIL AND PASSWORD', () => {
-//     it('It should not create user missing required parameter', (done) => {
-//       chai.request(server)
-//         .post('/api/v1/users/signup').send(invalidData)
-//         .end((err, response) => {
-//           response.should.have.status(400);
-//           response.body.should.be.a('object');
-//           response.body.should.have.property('status');
-//           response.body.should.have.property('message');
-//           done();
-//         });
-//     });
-//     it('It should not create user passwords not equal', (done) => {
-//       chai.request(server)
-//         .post('/api/v1/users/signup').send(wrongpassword)
-//         .end((err, response) => {
-//           response.should.have.status(400);
-//           response.body.should.be.a('object');
-//           response.body.should.have.property('status');
-//           response.body.should.have.property('message');
-//           done();
-//         });
-//     });
-//     it('It should create user', (done) => {
-//       chai.request(server)
-//         .post('/api/v1/users/signup').send(validData)
-//         .end((err, response) => {
-//           response.should.have.status(201);
-//           response.body.should.be.a('object');
-//           response.body.should.have.property('status');
-//           response.body.should.have.property('message');
-//           token = response.body.data.token;
-//           done();
-//         });
-//     });
-//     it('It should not create user email exists in system', (done) => {
-//       chai.request(server)
-//         .post('/api/v1/users/signup').send(validData)
-//         .end((err, response) => {
-//           response.should.have.status(409);
-//           response.body.should.be.a('object');
-//           response.body.should.have.property('status');
-//           response.body.should.have.property('message');
-//           done();
-//         });
-//     });
-//   });
-//   describe('USER VERIFICATION', () => {
-//     it('It should not verify the user token is missing', (done) => {
-//       chai.request(server)
-//         .get('/api/v1/users/verify/token')
-//         .end((err, response) => {
-//           response.should.have.status(500);
-//           response.body.should.be.a('object');
-//           response.body.should.have.property('status');
-//           response.body.should.have.property('message');
-//           done();
-//         });
-//     });
-//     it('It should not verify the user bad request method', (done) => {
-//       chai.request(server)
-//         .post('/api/v1/users/verify/token')
-//         .end((err, response) => {
-//           response.should.have.status(404);
-//           done();
-//         });
-//     });
-//     it('It should  verify the user', (done) => {
-//       chai.request(server)
-//         .get(`/api/v1/users/verify/${token}`)
-//         .end((err, response) => {
-//           response.should.have.status(200);
-//           response.body.should.be.a('object');
-//           response.body.should.have.property('status');
-//           response.body.should.have.property('message');
-//           done();
-//         });
-//     });
-//     it('It should  verify the user only once', (done) => {
-//       chai.request(server)
-//         .get(`/api/v1/users/verify/${token}`)
-//         .end((err, response) => {
-//           response.should.have.status(422);
-//           response.body.should.be.a('object');
-//           response.body.should.have.property('status');
-//           response.body.should.have.property('message');
-//           done();
-//         });
-//     });
-//   });
-// };
+
 export default permissionTest;
