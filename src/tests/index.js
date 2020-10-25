@@ -6,6 +6,7 @@ import googleLoginTest from './signinTest/googleLogin.test';
 import manualLogintest from './signinTest/manualLogin.test';
 import resetPassword from './registration/resetPassword';
 import logoutTest from './logoutTest/logout.test';
+import permissionTest from './permissions/permissions';
 
 describe('test the first endpoint', welcome);
 describe('test the manual login endpoint', manualLogintest);
@@ -14,3 +15,4 @@ describe('test the facebook login api', facebookLoginTest);
 describe('test the google login endpoint', googleLoginTest);
 describe('Resetting User Password', resetPassword);
 describe('Test the user logout endpoints',logoutTest);
+describe('test for accessing permission endpoint', permissionTest);
