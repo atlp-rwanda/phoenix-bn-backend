@@ -29,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
     preferedLanguage: DataTypes.STRING,
     lineManager: DataTypes.STRING,
     isVerified: DataTypes.BOOLEAN,
+    socialId: DataTypes.STRING,
+    provider: DataTypes.STRING,
+    authToken: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Users',

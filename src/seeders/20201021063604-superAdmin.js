@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     /**
@@ -11,7 +13,7 @@ module.exports = {
     */
     await queryInterface.bulkInsert('Users', [{
       id: 12,
-      email: 'admin@barefoot.com',
+      email: 'nomadbarefoot2@gmail.com',
       password: 'password',
       isVerified: true,
       createdAt: new Date(),
