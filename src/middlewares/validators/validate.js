@@ -4,6 +4,8 @@ import {
   passwordSchema,
 } from '../../helpers/validateSchema';
 import userService from '../../services/userService';
+import rolePermissionService from '../../services/rolePermissionService';
+import permissionService from '../../services/permissionService';
 import Util from '../../helpers/utils';
 import {
   joiValidationError,
@@ -84,6 +86,21 @@ export default class validator {
       return util.send(res);
     }
   }
+  static async verifyAdmin(req, res, next) {
+    try {
+      const data = await decodeToken(req.headers.authorization);
+      const { RoleId } = data;
+      if (RoleId === 1) {
+        next();
+      } else {
+        util.setError(400, 'Un authorized access');
+        return util.send(res);
+      }
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
 
   static async passwordMatch(req, res, next) {
     try {
@@ -110,6 +127,45 @@ export default class validator {
         return util.send(res);
       }
       next();
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+  static async verifyRole(req, res, next) {
+    try {
+      const data = await decodeToken(req.headers.authorization);
+      const { RoleId } = data;
+      const permName = req.headers.permissionName;
+      const perm = await permissionService.findByName(permName);
+      console.log(perm);
+      const allowedPermissions = [];
+      if (RoleId === 1) {
+        const rolePermissions = await rolePermissionService.getRolePermissions();
+        rolePermissions.forEach((element) => {
+          const singlePermission = element.permission_id;
+          if (allowedPermissions.indexOf(singlePermission) === -1) {
+            allowedPermissions.push(singlePermission);
+          } else {
+            return true;
+          }
+        });
+        util.setSuccess(200, 'Successfully retrieved Role_permission', allowedPermissions);
+      } else {
+        const rolePermissions = await rolePermissionService.findByRole({ role_id: RoleId });
+        rolePermissions.forEach((element) => {
+          const singlePermission = element.permission_id;
+          if (allowedPermissions.indexOf(singlePermission) === -1) {
+            allowedPermissions.push(singlePermission);
+          } else {
+            return true;
+          }
+        });
+        util.setSuccess(200, 'Successfully retrieved Role_permission', allowedPermissions);
+      }
+      return res.send(req);
+      // res.userPermission = allowedPermissions;
+      // next();
     } catch (error) {
       util.setError(500, error.message);
       return util.send(res);

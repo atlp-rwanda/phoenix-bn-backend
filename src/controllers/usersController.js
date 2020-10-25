@@ -37,20 +37,10 @@ export default class user {
         id: res.id,
       });
       const {
-        id,
-        isVerified,
-        roleId,
-        email,
+        id, isVerified, RoleId, email,
       } = await userService.findById(res.id);
-      const token = await newJwtToken({
-        userId: id,
-        role: roleId,
-      }, '1h');
-      const data = {
-        userId: id,
-        email,
-        token,
-      };
+      const token = await newJwtToken({ userId: id, role: RoleId }, '1h');
+      const data = { userId: id, email, token };
       const message = 'your account was verified!';
       util.setSuccess(200, message, data);
       return util.send(res);
@@ -117,25 +107,25 @@ export default class user {
         util.statusCode = 400;
         return util.send(res);
       }
-      if (email === process.env.EMAIL && password !== process.env.ADMIN_PASSWORD) {
-        util.type = 'error';
-        util.statusCode = 400;
-        util.message = 'Incorrect password';
-        return util.send(res);
-      }
-      if (password === process.env.ADMIN_PASSWORD && email === process.env.EMAIL) {
-        const displayData = pick(currentUser.dataValues, ['id', 'firstName', 'lastName', 'email']);
-        const authToken = AuthTokenHelper.generateToken(displayData);
-        userService.updateAtt({ authToken }, { email: displayData.email });
-        util.statusCode = 200;
-        util.message = 'User Logged in Successfully';
-        util.data = { displayData, authToken };
-        util.type = 'success';
-        return util.send(res);
-      }
+      // if (email === process.env.EMAIL && password !== process.env.ADMIN_PASSWORD) {
+      //   util.type = 'error';
+      //   util.statusCode = 400;
+      //   util.message = 'Incorrect password';
+      //   return util.send(res);
+      // }
+      // if (password === process.env.ADMIN_PASSWORD && email === process.env.EMAIL) {
+      //   const displayData = pick(currentUser.dataValues, ['id', 'firstName', 'lastName', 'email','RoleId']);
+      //   const authToken = AuthTokenHelper.generateToken(displayData);
+      //   userService.updateAtt({ authToken }, { email: displayData.email });
+      //   util.statusCode = 200;
+      //   util.message = 'User Logged in Successfully';
+      //   util.data = { displayData, authToken };
+      //   util.type = 'success';
+      //   return util.send(res);
+      // }
       const isMatch = await bcrypt.compare(password, currentUser.password);
       if (isMatch) {
-        const displayData = pick(currentUser.dataValues, ['firstName', 'lastName', 'email', 'id']);
+        const displayData = pick(currentUser.dataValues, ['firstName', 'lastName', 'email', 'id', 'RoleId']);
         const authToken = AuthTokenHelper.generateToken(displayData);
         userService.updateAtt({ authToken }, { email: displayData.email });
         util.statusCode = 200;
@@ -144,10 +134,35 @@ export default class user {
         util.data = { displayData, authToken };
         return util.send(res);
       }
+      util.setError(401, 'Incorrect username or password');
+      return util.send(res);
     } catch (err) {
-      util.type = 'error';
-      util.statusCode = 400;
-      util.message = 'Incorrect password';
+      util.setError(500, err.message);
+      return util.send(res);
+    }
+  }
+
+  static async updateUser(req, res) {
+    try {
+      const { firstName } = req.body;
+      const { lastName } = req.body;
+      const { email } = req.body;
+      const { RoleId } = req.body;
+      const prop = {
+        id: req.params.id,
+      }
+
+      const updateUser = {};
+      if (firstName) updateUser.firstName = firstName;
+      if (lastName) updateUser.lastName = lastName;
+      if (email) updateUser.email = email;
+      if (RoleId) updateUser.RoleId = RoleId;
+
+      const updatedUser = await userService.updateAtt(updateUser, prop)
+      util.setSuccess(200, 'User updated successfully', updateUser);
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
