@@ -4,10 +4,8 @@ import { manualSignup } from './manualSignup.swagger';
 import { resetPassword } from './passwordReset.swagger';
 
 dotenv.config();
-const paths = { ...welcome, ...manualSignup, ...resetPassword };
+const paths = { ...welcome, ...manualSignup, ...resetPassword,...logout };
 import {logout} from './userLogout.swagger';
-
-const paths = { ...welcome, ...manualSignup,...logout};
 const config = {
   swagger: '2.0',
   info: {
