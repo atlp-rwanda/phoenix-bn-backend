@@ -108,22 +108,6 @@ export default class user {
         util.statusCode = 400;
         return util.send(res);
       }
-      // if (email === process.env.EMAIL && password !== process.env.ADMIN_PASSWORD) {
-      //   util.type = 'error';
-      //   util.statusCode = 400;
-      //   util.message = 'Incorrect password';
-      //   return util.send(res);
-      // }
-      // if (password === process.env.ADMIN_PASSWORD && email === process.env.EMAIL) {
-      //   const displayData = pick(currentUser.dataValues, ['id', 'firstName', 'lastName', 'email','RoleId']);
-      //   const authToken = AuthTokenHelper.generateToken(displayData);
-      //   userService.updateAtt({ authToken }, { email: displayData.email });
-      //   util.statusCode = 200;
-      //   util.message = 'User Logged in Successfully';
-      //   util.data = { displayData, authToken };
-      //   util.type = 'success';
-      //   return util.send(res);
-      // }
       const isMatch = await bcrypt.compare(password, currentUser.password);
       if (isMatch) {
         const displayData = pick(currentUser.dataValues, ['firstName', 'lastName', 'email', 'id', 'RoleId']);
