@@ -68,11 +68,10 @@ export default class validator {
 
   static async validateEmail(req, res, next) {
     try {
-      const {
-        error,
-      } = passwordResetSchema.validate({
+      const { error } = passwordResetSchema.validate({
         email: req.body.email,
       });
+
       if (error) {
         const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
         util.setError(400, Error);

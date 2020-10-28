@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import bcrypt from 'bcrypt';
 import { pick } from 'lodash';
 import { sendLink } from '../utils/sendVerificationLink';
@@ -151,18 +152,57 @@ export default class user {
       return util.send(res);
     }
   }
-  static async userLogout(req,res){
+
+  static async userLogout(req, res) {
     try {
       const queryResult = await userService.updateAtt(
         { authToken: null },
         { id: res.id },
       );
-      util.setSuccess('200','Logout successful');
+      util.setSuccess('200', 'Logout successful');
       return util.send(res);
     } catch (error) {
       util.setError(500, error.message);
       return util.send(res);
     }
-    
+  }
+
+  static async socialSignup(userInfo, res) {
+    try {
+      const {
+        given_name, family_name, email, provider, id,
+      } = userInfo;
+      const userData = {
+        firstName: given_name,
+        lastName: family_name,
+        socialId: id,
+        provider,
+        email,
+        isVerified: true,
+      };
+      const newUser = await userService.createuser(userData);
+      if (newUser) {
+        const payload = {
+          email: newUser.email,
+          userId: newUser.id,
+          roleId: newUser.roleId,
+        };
+        const token = await newJwtToken(payload, '1h');
+        await userService.updateAtt({ authToken: token }, { id: newUser.id });
+
+        util.setSuccess(200, 'Account created', {
+          email: newUser.email,
+          userId: newUser.id,
+          roleId: newUser.roleId,
+          token,
+        });
+        return util.send(res);
+      }
+      util.setError(500, 'Failed to create your account');
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
   }
 }
