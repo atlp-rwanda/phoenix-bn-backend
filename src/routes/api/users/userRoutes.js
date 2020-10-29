@@ -19,5 +19,6 @@ router.get('/auth/google/redirect', passport.authenticate('google', { session: f
 router.get('/auth/facebook/callback', passport.authenticate('facebook', { session: false }), OAuth.facebookAuth);
 router.post('/forgot-password', validate.validateEmail, verification.email, usersController.resetPassword);
 router.put('/reset-password/:token', validate.passwordMatch, verification.tokenValid, usersController.changePassword);
+router.put('/update/:id', usersController.updateUser);
 
 export default router;
