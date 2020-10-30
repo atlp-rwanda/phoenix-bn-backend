@@ -1,13 +1,12 @@
 /* eslint-disable no-undef */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { response } from 'express';
 import server from '../../app';
 
 chai.should();
 chai.use(chaiHttp);
-const adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImJhcmVmb290QGdtYWlsLmNvbSIsImlkIjoyNSwiUm9sZUlkIjoxLCJpYXQiOjE2MDM2NjYwNTksImV4cCI6MTYwMzY2OTY1OX0.eN5SAU1d8CZFykQG_kOLKNdCkcBPC6QQzOsfHloY3o0';
-const demoPermission = 'user';
+const adminToken = '';
+const demoPermission = 'demo permission';
 const permissionTest = () => {
   describe('TEST ACCESSING PERMISSION API WITH USER', () => {
     it('It should not allow user other than superAdmin to access the apis', (done) => {

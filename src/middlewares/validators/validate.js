@@ -4,8 +4,10 @@ import {
   passwordSchema,
 } from '../../helpers/validateSchema';
 import userService from '../../services/userService';
-import rolePermissionService from '../../services/rolePermissionService';
-import permissionService from '../../services/permissionService';
+// import rolePermissionService from '../../services/rolePermissionService';
+// import permissionService from '../../services/permissionService';
+import roleService from '../../services/roleService';
+
 import Util from '../../helpers/utils';
 import {
   joiValidationError,
@@ -86,6 +88,7 @@ export default class validator {
       return util.send(res);
     }
   }
+
   static async verifyAdmin(req, res, next) {
     try {
       const data = await decodeToken(req.headers.authorization);
@@ -132,45 +135,19 @@ export default class validator {
       return util.send(res);
     }
   }
-  static async verifyRole(req, res, next) {
+
+  static async roleExist(req, res, next) {
     try {
-      const data = await decodeToken(req.headers.authorization);
-      const { RoleId } = data;
-      const permName = req.headers.permissionname;
-      if (!permName) {
-        util.setError(500, 'this endpoint requires a permissionName header');
-        return util.send(res);
-      }
-      const perm = await permissionService.findByName({ name: permName });
-      const allowedPermissions = [];
-      if (RoleId === 1) {
-        const rolePermissions = await rolePermissionService.getRolePermissions();
-        rolePermissions.forEach((element) => {
-          const singlePermission = element.permission_id;
-          if (allowedPermissions.indexOf(singlePermission) === -1) {
-            allowedPermissions.push(singlePermission);
-          } else {
-            return true;
-          }
-        });
-        util.setSuccess(200, 'Successfully retrieved Role_permission', allowedPermissions);
-      } else {
-        const rolePermissions = await rolePermissionService.findByRole({ role_id: RoleId });
-        rolePermissions.forEach((element) => {
-          const singlePermission = element.permission_id;
-          if (allowedPermissions.indexOf(singlePermission) === -1) {
-            allowedPermissions.push(singlePermission);
-          } else {
-            return true;
-          }
-        });
-        util.setSuccess(200, 'Successfully retrieved Role_permission', allowedPermissions);
-      }
-      if (allowedPermissions.indexOf(perm.id) !== -1) {
-        res.userPermission = allowedPermissions;
+      const { roleId } = req.body;
+      if (roleId) {
+        const roleAvailable = await roleService.findById(roleId);
+        if (!roleAvailable) {
+          util.setError(400, 'Role you want to assign don\'t exists');
+          return util.send(res);
+        }
         next();
       } else {
-        util.setError(500, 'Unauthorized access');
+        util.setError(400, 'roleId is missing');
         return util.send(res);
       }
     } catch (error) {

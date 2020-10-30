@@ -16,10 +16,8 @@ export default class Permission {
 
   static async savePermission(req, res) {
     try {
-      const newPermission = {
-        name: req.body.name,
-      };
-      const createdPermission = await permissionService.createPermission(newPermission);
+      const { name } = req.body;
+      const createdPermission = await permissionService.createPermission({ name });
       util.setSuccess(200, 'Permission created', createdPermission);
       return util.send(res);
     } catch (error) {
@@ -30,8 +28,8 @@ export default class Permission {
 
   static async findPermission(req, res) {
     try {
-      const modelId = req.params.id;
-      const singlePermission = await permissionService.findById(modelId);
+      const { id } = req.params;
+      const singlePermission = await permissionService.findById(id);
       util.setSuccess(200, 'Successfully retrieved permission', singlePermission);
       return util.send(res);
     } catch (error) {
@@ -42,10 +40,8 @@ export default class Permission {
 
   static async findPermissionByName(req, res) {
     try {
-      const nameProp = {
-        name: req.params.name,
-      };
-      const singlePermission = await permissionService.findByName(nameProp);
+      const { name } = req.params;
+      const singlePermission = await permissionService.findByName({ name });
       util.setSuccess(200, 'Successfully retrieved permission', singlePermission);
       return util.send(res);
     } catch (error) {
@@ -56,13 +52,9 @@ export default class Permission {
 
   static async updatePermission(req, res) {
     try {
-      const updatePermission = {
-        name: req.body.name,
-      };
-      const prop = {
-        id: req.params.id,
-      };
-      const updatedPermission = await permissionService.updateAtt(updatePermission, prop);
+      const { name } = req.body;
+      const { id } = req.params;
+      const updatedPermission = await permissionService.updateAtt({ name }, { id });
       util.setSuccess(200, 'Permission updated successfuly', updatedPermission);
       return util.send(res);
     } catch (error) {
@@ -73,8 +65,8 @@ export default class Permission {
 
   static async deletePermission(req, res) {
     try {
-      const modelId = req.params.id;
-      const deletedPermission = await permissionService.deletePermission(modelId);
+      const { id } = req.params;
+      const deletedPermission = await permissionService.deletePermission(id);
       util.setSuccess(200, 'Permission deleted successfully', deletedPermission);
       return util.send(res);
     } catch (error) {
