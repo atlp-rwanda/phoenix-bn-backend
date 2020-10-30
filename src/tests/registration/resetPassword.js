@@ -11,7 +11,7 @@ const EmailNotExist = {
   email: 'muhire@gmail.com',
 };
 const EmailExist = {
-  email: 'fukundimana@gmail.com',
+  email: 'barefoot@gmail.com',
 };
 const dataPassword = {
   password: 'password',

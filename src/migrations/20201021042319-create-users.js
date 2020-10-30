@@ -54,7 +54,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       authToken: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
     });
   },
