@@ -40,7 +40,7 @@ export default class user {
       const {
         id, isVerified, RoleId, email,
       } = await userService.findById(res.id);
-      const token = await newJwtToken({ userId: id, role: RoleId }, '1h');
+      const token = await newJwtToken({ userId: id, RoleId }, '1h');
       const data = { userId: id, email, token };
       const message = 'your account was verified!';
       util.setSuccess(200, message, data);
@@ -127,47 +127,35 @@ export default class user {
     }
   }
 
-  static async updateUser(req, res) {
+  static async changeRole(req, res, next) {
     try {
-      const { firstName } = req.body;
-      const { lastName } = req.body;
-      const { email } = req.body;
-      const { RoleId } = req.body;
-      const data = await decodeToken(req.headers.authorization);
-      const userId = data.RoleId;
-      const updateUser = {};
-      const prop = {
-        id: req.params.id,
-      };
-      if (userId === 1) {
-        if (firstName) updateUser.firstName = firstName;
-        if (lastName) updateUser.lastName = lastName;
-        if (email) updateUser.email = email;
-        if (RoleId) updateUser.RoleId = RoleId;
-      } else {
-        util.setError(500, 'You can\'t update User role');
+      const { id } = req.params;
+      const { roleId } = req.body;
+      const userExist = await userService.findById(id);
+      if (userExist) {
+        const update = await userService.updateAtt({ RoleId: roleId }, { id });
+        util.setSuccess('200', 'Role Updated');
         return util.send(res);
       }
-      const updatedUser = await userService.updateAtt(updateUser, prop);
-      util.setSuccess(200, 'User updated successfully', updateUser);
+      util.setError(400, 'The user doesn\'t exist');
       return util.send(res);
     } catch (error) {
       util.setError(500, error.message);
       return util.send(res);
     }
   }
-  static async userLogout(req,res){
+
+  static async userLogout(req, res) {
     try {
       const queryResult = await userService.updateAtt(
         { authToken: null },
         { id: res.id },
       );
-      util.setSuccess('200','Logout successful');
+      util.setSuccess('200', 'Logout successful');
       return util.send(res);
     } catch (error) {
       util.setError(500, error.message);
       return util.send(res);
     }
-    
   }
 }

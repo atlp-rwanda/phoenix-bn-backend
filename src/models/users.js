@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     isVerified: DataTypes.BOOLEAN,
     socialId: DataTypes.STRING,
     provider: DataTypes.STRING,
-    authToken: DataTypes.STRING,
+    authToken: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'Users',
