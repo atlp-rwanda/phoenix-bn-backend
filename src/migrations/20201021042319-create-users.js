@@ -21,7 +21,7 @@ module.exports = {
       },
       RoleId: {
         type: Sequelize.INTEGER,
-        defaultValue: 4,
+        defaultValue: 5,
       },
       profilePicture: {
         type: Sequelize.STRING,
