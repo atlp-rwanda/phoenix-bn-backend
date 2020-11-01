@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+
       models.Users.belongsTo(models.Roles,{
-        foreignKey: {
-          name: 'RoleId',
-        },
-      });
+        foreignKey: 'RoleId',
+        onDelete: 'CASCADE'
+      }); 
     }
   }
   Users.init({
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     profilePicture: DataTypes.STRING,
     officeAddres: DataTypes.STRING,
     preferedLanguage: DataTypes.STRING,
-    lineManager: DataTypes.STRING,
+    lineManager: DataTypes.INTEGER,
     isVerified: DataTypes.BOOLEAN,
     socialId: DataTypes.STRING,
     provider: DataTypes.STRING,
