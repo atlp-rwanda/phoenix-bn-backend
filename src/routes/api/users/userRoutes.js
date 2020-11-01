@@ -21,5 +21,7 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', { sessio
 router.post('/forgot-password', validate.validateEmail, verification.email, usersController.resetPassword);
 router.put('/reset-password/:token', validate.passwordMatch, verification.tokenValid, usersController.changePassword);
 router.put('/changeRole/:id', isAuthenticated, allowedRoles([1]), validate.roleExist, usersController.changeRole);
+router.put('/manager/assign', isAuthenticated, allowedRoles([3]), usersController.assignUsers);
+router.get('/manager/:id', isAuthenticated, allowedRoles([3]), usersController.getUsers);
 
 export default router;

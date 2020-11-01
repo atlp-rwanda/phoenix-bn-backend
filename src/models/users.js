@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     profilePicture: DataTypes.STRING,
     officeAddres: DataTypes.STRING,
     preferedLanguage: DataTypes.STRING,
-    lineManager: DataTypes.STRING,
+    lineManager: DataTypes.INTEGER,
     isVerified: DataTypes.BOOLEAN,
     socialId: DataTypes.STRING,
     provider: DataTypes.STRING,
