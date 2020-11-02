@@ -1,4 +1,4 @@
-import joi from 'joi';
+import joi, { string } from 'joi';
 
 export const signupValidateSchema = joi.object({
   email: joi.string().required().email(),
@@ -25,4 +25,12 @@ export const tokenValid = joi.object({
   resetpassword: joi.boolean().valid(true).required(),
   iat: joi.number().required(),
   exp: joi.number().required(),
+});
+export const tripSchema = joi.object({
+  destination: joi.array().min(1).required(),
+  origin: joi.string().required(),
+  travelDate: joi.date().iso().required(),
+  returnDate: joi.date().iso(),
+  accomodation: joi.number().required(),
+  reason: joi.string().required(),
 });

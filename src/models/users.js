@@ -1,7 +1,4 @@
-const { string, date } = require('joi');
-const {
-  Model,
-} = require('sequelize');
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
@@ -11,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.Users.belongsTo(models.Roles,{
+      models.Users.belongsTo(models.Roles, {
         foreignKey: {
           name: 'RoleId',
         },

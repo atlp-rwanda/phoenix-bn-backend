@@ -2,11 +2,11 @@ import {
   signupValidateSchema,
   passwordResetSchema,
   passwordSchema,
+  tripSchema,
 } from '../../helpers/validateSchema';
 import userService from '../../services/userService';
-// import rolePermissionService from '../../services/rolePermissionService';
-// import permissionService from '../../services/permissionService';
 import roleService from '../../services/roleService';
+import accomodationService from '../../services/accomodationService';
 
 import Util from '../../helpers/utils';
 import {
@@ -96,7 +96,7 @@ export default class validator {
       if (RoleId === 1) {
         next();
       } else {
-        util.setError(400, 'Un authorized access');
+        util.setError(403, 'Un authorized access');
         return util.send(res);
       }
     } catch (error) {
@@ -150,6 +150,62 @@ export default class validator {
         util.setError(400, 'roleId is missing');
         return util.send(res);
       }
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  static async tripRequest(req, res, next) {
+    try {
+      const { error } = tripSchema.validate(req.body);
+      if (error) {
+        const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
+        util.setError(400, Error);
+        return util.send(res);
+      }
+      next();
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  static async checkDates(req, res, next) {
+    try {
+      const datetime = new Date();
+      const date = datetime.toISOString().slice(0, 10);
+      const { travelDate, returnDate } = req.body;
+      if (travelDate >= date) {
+        if (returnDate) {
+          if (returnDate < travelDate) {
+            util.setError(400, 'returning date should be greater than travelling date');
+            return util.send(res);
+          }
+          req.tripType = 'returning';
+          next();
+        } else {
+          req.tripType = 'one way';
+        }
+      } else {
+        util.setError(400, 'Travel date can\'t be in past');
+        return util.send(res);
+      }
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  static async checkAcommodation(req, res, next) {
+    try {
+      const { accomodation } = req.body;
+      const chk = await accomodationService.findById(accomodation);
+      if (!chk) {
+        util.setError(404, 'Accomodation not found');
+        return util.send(res);
+      }
+      next();
     } catch (error) {
       util.setError(500, error.message);
       return util.send(res);

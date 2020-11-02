@@ -30,7 +30,6 @@ export const allowedRoles = (roles) => {
         util.setError(403, 'You are not allowed to permform this task');
         return util.send(res);
       }
-      console.log('welcome');
       next();
     } catch (error) {
       util.setError(500, error.message);
@@ -38,4 +37,22 @@ export const allowedRoles = (roles) => {
     }
   };
   return allow;
+};
+
+export const hasManager = async (req, res, next) => {
+  try {
+    const { id } = req.userInfo;
+    const getManager = await userService.findById(id);
+    const { lineManager } = getManager;
+    const chk = await userService.findById(lineManager);
+    if (chk === null) {
+      util.setError(403, 'sorry  you don\'t  have manager assigned to you ');
+      return util.send(res);
+    }
+    req.lineManager = chk.id;
+    next();
+  } catch (error) {
+    util.setError(500, error.message);
+    return util.send(res);
+  }
 };
