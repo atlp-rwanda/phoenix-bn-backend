@@ -11,6 +11,7 @@ import roleTest from './roles/roles';
 import rolePermissionTest from './rolePermissions/rolePermissions';
 import { loginTests } from './users/login.test';
 import createTrip from './trips/createTripRequest';
+import assignUsers from './roles/assignUsers';
 
 describe('test the first endpoint', welcome);
 describe('test the manual login endpoint', manualLogintest);
@@ -23,4 +24,6 @@ describe('Test the user logout endpoints', logoutTest);
 describe('test for accessing permission endpoint', permissionTest);
 describe('test for accessing role endpoint', roleTest);
 describe('test for accessing rolePermission endpoint', rolePermissionTest);
+describe('Test for assigning users to manager endpoints', assignUsers);
 describe('test for creating and view trip request', createTrip);
+

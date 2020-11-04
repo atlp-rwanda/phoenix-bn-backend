@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Accomodations.hasMany(models.trips, {
+        foreignKey: 'accomodation_id',
+        targetKey: 'id',
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE',
+        as: 'trip',
+      });
     }
   }
   Accomodations.init({

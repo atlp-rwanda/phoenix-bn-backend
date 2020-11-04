@@ -128,6 +128,7 @@ export default class user {
   }
 
   static async changeRole(req, res, next) {
+
     try {
       const { id } = req.params;
       const { roleId } = req.body;
@@ -143,6 +144,8 @@ export default class user {
       util.setError(500, error.message);
       return util.send(res);
     }
+
+
   }
 
   static async userLogout(req, res) {
@@ -152,6 +155,42 @@ export default class user {
         { id: res.id },
       );
       util.setSuccess('200', 'Logout successful');
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  static async assignUsers(req, res) {
+    try {
+      const { lineManagerId } = req.body;
+      const { userId } = req.body;
+      const lineManager = await userService.findByLineManagerId(lineManagerId);
+      if (lineManager) {
+        const update = await userService.updateAtt({ lineManager: lineManagerId }, { id: userId });
+        util.setSuccess('200', 'user is assigned to the manager');
+        return util.send(res);
+      }
+      util.setError(400, 'The manager doesn\'t exist');
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+
+  }
+
+  static async getUsers(req, res) {
+    try {
+      const { id } = req.params;
+      const users = await userService.getUsers(id);
+      if (users.length >= 1) {
+        const message = 'the users assigned to that manager are found';
+        util.setSuccess(200, message, users);
+        return util.send(res);
+      }
+      util.setError(400, 'The manager doesn\'t have users');
       return util.send(res);
     } catch (error) {
       util.setError(500, error.message);

@@ -4,7 +4,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../app';
-import 'dotenv/config';
 
 chai.should();
 chai.use(chaiHttp);
@@ -21,9 +20,17 @@ const admin = {
   email: 'barefoot@gmail.com',
   password: '123456',
 };
+const manager = {
+  email: 'manager@barefoot.com',
+  password: '123456',
+};
 let requesterToken = '';
 let lineManagerToken = '';
 let adminToken = '';
+let managerToken = '';
+let requesterId = '';
+let managerId = '';
+let lineManagerId = '';
 
 const loginTests = () => {
   describe('POST /', () => {
@@ -34,6 +41,7 @@ const loginTests = () => {
         .end((err, response) => {
           response.should.have.status(200);
           requesterToken = response.body.data.authToken;
+          requesterId = response.body.data.displayData.id;
           done();
         });
     });
@@ -45,6 +53,7 @@ const loginTests = () => {
         .end((err, response) => {
           response.should.have.status(200);
           lineManagerToken = response.body.data.authToken;
+          lineManagerId = response.body.data.displayData.id;
           done();
         });
     });
@@ -59,9 +68,21 @@ const loginTests = () => {
           done();
         });
     });
+    it('log manager In', (done) => {
+      chai.request(server)
+        .post('/api/v1/users/login')
+        .send(manager)
+        .end((err, response) => {
+          response.should.have.status(200);
+          managerToken = response.body.data.authToken;
+          managerId = response.body.data.displayData.id;
+          done();
+        });
+    });
   });
 };
 
 export {
-  requesterToken, lineManagerToken, loginTests, adminToken,
+  requesterToken, lineManagerToken, loginTests, adminToken, managerToken,
+  requesterId, managerId, lineManagerId,
 };

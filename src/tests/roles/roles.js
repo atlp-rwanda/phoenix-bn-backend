@@ -31,6 +31,7 @@ const roleTest = () => {
         .get('/api/v1/roles')
         .set('authorization', adminToken)
         .end((err, response) => {
+          console.log(response.body)
           response.should.have.status(200);
           done();
         });

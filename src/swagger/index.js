@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { welcome } from './welcome.swagger';
 import { manualSignup } from './manualSignup.swagger';
+import { assignUsers } from './assignUsers.swagger';
 import { resetPassword } from './passwordReset.swagger';
 import { logout } from './userLogout.swagger';
 import { sendTripRequest } from './sendTripRequest.swagger';
@@ -12,6 +13,7 @@ const paths = {
   ...resetPassword,
   ...logout,
   ...sendTripRequest,
+  ...assignUsers,
 };
 
 const config = {

@@ -22,6 +22,8 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
+      firstName: 'Kwizera',
+      lastName: 'Bryan',
       email: 'linemanager@barefoot.com',
       password: '$2b$10$GBZgVGM5YDiE2JmhzBWxQuhTARsPQURZFQ7Y0.MsR5M6mqR.EzQ8u',
       RoleId: 4,

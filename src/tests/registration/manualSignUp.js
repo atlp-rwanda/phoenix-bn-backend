@@ -55,6 +55,7 @@ const SignUpTest = () => {
       chai.request(server)
         .post('/api/v1/users/signup').send(validData)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(201);
           response.body.should.be.a('object');
           response.body.should.have.property('status');
@@ -67,6 +68,7 @@ const SignUpTest = () => {
       chai.request(server)
         .post('/api/v1/users/signup').send(validData)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(409);
           response.body.should.be.a('object');
           response.body.should.have.property('status');
@@ -80,6 +82,7 @@ const SignUpTest = () => {
       chai.request(server)
         .get('/api/v1/users/verify/token')
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(500);
           response.body.should.be.a('object');
           response.body.should.have.property('status');
@@ -91,6 +94,7 @@ const SignUpTest = () => {
       chai.request(server)
         .post('/api/v1/users/verify/token')
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(404);
           done();
         });
@@ -99,6 +103,7 @@ const SignUpTest = () => {
       chai.request(server)
         .get(`/api/v1/users/verify/${token}`)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(200);
           response.body.should.be.a('object');
           response.body.should.have.property('status');
@@ -110,6 +115,7 @@ const SignUpTest = () => {
       chai.request(server)
         .get(`/api/v1/users/verify/${token}`)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(422);
           response.body.should.be.a('object');
           response.body.should.have.property('status');
