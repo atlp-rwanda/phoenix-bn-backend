@@ -21,7 +21,7 @@ module.exports = {
       },
       RoleId: {
         type: Sequelize.INTEGER,
-        defaultValue: 4,
+        defaultValue: 5,
       },
       profilePicture: {
         type: Sequelize.STRING,
@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       lineManager: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       isVerified: {
         type: Sequelize.BOOLEAN,
