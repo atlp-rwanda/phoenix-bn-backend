@@ -5,7 +5,7 @@ import server from '../../app';
 
 chai.should();
 chai.use(chaiHttp);
-const resetToken = '';
+let resetToken = '';
 
 const EmailNotExist = {
   email: 'muhire@gmail.com',
@@ -41,6 +41,7 @@ const ResetPasswordTest = () => {
           response.body.should.have.property('status');
           response.body.should.have.property('message');
           response.body.should.have.property('data');
+          resetToken = response.body.data.token;
           done();
         });
     });
@@ -50,15 +51,11 @@ const ResetPasswordTest = () => {
     it('It should  should change the user password', (done) => {
       chai.request(server)
         .put(`/api/v1/users/reset-password/${resetToken}`)
-        .send({ password: '12345678', confirmPassword: '12345678' })
-        .then((res) => {
-          expect(res).to.have.status(200);
-        })
-        .catch((err) => {
-          throw err;
+        .send({ password: '123456', confirmPassword: '123456' })
+        .end((err, response) => {
+          response.should.have.status(200);
+          done();
         });
-
-      done();
     });
   });
 };

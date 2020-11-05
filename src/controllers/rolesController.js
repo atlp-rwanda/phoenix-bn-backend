@@ -9,7 +9,7 @@ export default class Role {
       util.setSuccess(200, 'all roles', roles);
       return util.send(res);
     } catch (error) {
-      util.setError(500, 'Unable to retrieve all roles');
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
@@ -33,7 +33,7 @@ export default class Role {
       util.setSuccess(200, 'Successfully retrieved Role', singleRole);
       return util.send(res);
     } catch (error) {
-      util.setError(500, 'Sorry Role was not retrived');
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
@@ -46,7 +46,7 @@ export default class Role {
       util.setSuccess(200, 'Successfully retrieved Role', singleRole);
       return util.send(res);
     } catch (error) {
-      util.setError(500, 'sorry Role was not retrieved');
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
@@ -60,7 +60,7 @@ export default class Role {
       util.setSuccess(200, 'Role updated successfuly', updatedRole);
       return util.send(res);
     } catch (error) {
-      util.setError(500, 'Sorry Role not deleted');
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
@@ -72,7 +72,7 @@ export default class Role {
       util.setSuccess(200, 'Role deleted successfully', deletedRole);
       return util.send(res);
     } catch (error) {
-      util.setError(500, 'Sorry Role was not deleted');
+      util.setError(500, error.message);
       return util.send(res);
     }
   }

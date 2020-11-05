@@ -10,27 +10,27 @@ module.exports = {
      * }], {});
     */
     await queryInterface.bulkInsert('Roles', [{
-      RoleId: 1,
+      id: 1,
       name: 'Super admin',
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
-      RoleId: 2,
+      id: 2,
       name: 'Travel Admin',
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
-      RoleId: 3,
+      id: 3,
       name: 'Manager',
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
-      RoleId: 4,
+      id: 4,
       name: 'Line Manager',
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
-      RoleId: 5,
+      id: 5,
       name: 'Requester',
       createdAt: new Date(),
       updatedAt: new Date(),
