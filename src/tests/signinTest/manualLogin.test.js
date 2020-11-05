@@ -47,7 +47,7 @@ const manualLoginTest = () => {
     it('Admin should login with Pre confogured credentials', (done) => {
       chai.request(server)
         .post('/api/v1/users/login')
-        .send({ email: process.env.EMAIL, password: process.env.ADMIN_PASSWORD })
+        .send({ email: 'barefoot@gmail.com', password: '123456' })
         .end((err, response) => {
           response.should.have.status(200);
           done();

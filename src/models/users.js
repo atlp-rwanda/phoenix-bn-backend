@@ -1,7 +1,4 @@
-const { string, date } = require('joi');
-const {
-  Model,
-} = require('sequelize');
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
@@ -11,10 +8,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.Users.belongsTo(models.Roles,{
-        foreignKey: {
-          name: 'RoleId',
-        },
+      Users.belongsTo(models.Roles, {
+        foreignKey: 'RoleId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        foreignKeyConstraint :true,
+        
+      });
+      Users.hasMany(models.trips, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        foreignKeyConstraint :true,
       });
     }
   }
@@ -27,11 +32,11 @@ module.exports = (sequelize, DataTypes) => {
     profilePicture: DataTypes.STRING,
     officeAddres: DataTypes.STRING,
     preferedLanguage: DataTypes.STRING,
-    lineManager: DataTypes.STRING,
+    lineManager: DataTypes.INTEGER,
     isVerified: DataTypes.BOOLEAN,
     socialId: DataTypes.STRING,
     provider: DataTypes.STRING,
-    authToken: DataTypes.STRING,
+    authToken: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'Users',

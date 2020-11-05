@@ -1,4 +1,9 @@
-import models from '../models/';
+
+import bcrypt from 'bcrypt';
+import { includes } from 'lodash';
+import { Op } from 'sequelize';
+import models from '../models';
+
 
 const { Users } = models;
 /**
@@ -29,9 +34,16 @@ class UserService {
     });
   }
 
-  static getUsers() {
-    return Users.findAll();
-  }
+  static getUsers(id) {
+    return Users.findAll(
+      {
+        where: {
+          lineManager: id, 
+          isVerified: true,
+        }, attributes: ['id', 'email', 'RoleId', 'lineManager', 'isVerified']
+      }
+    );
+}
 
   /**
    * Find a User in storage using login credentials.
@@ -39,15 +51,26 @@ class UserService {
    * @returns {*} JSON data
    */
   static findByEmail(prop) {
-    return Users.findOne({
-      where: { email: prop },
+  return Users.findOne({
+    where: { email: prop },
+  });
+}
+  static findById(modelId) {
+  return Users.findOne({
+    where: { id: modelId },
+  });
+}
+  static findByLineManagerId(lineManagerId) {
+  return Users.findOne({
+    where: { id: lineManagerId },
+  });
+}
+
+   static findByProp(prop) {
+    return Users.findAll({
+      where: prop,
     });
   }
 
-  static findById(modelId) {
-    return Users.findOne({
-      where: { id: modelId },
-    });
-  }
 }
 export default UserService;

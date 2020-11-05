@@ -3,6 +3,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../app';
+
 chai.should();
 chai.use(chaiHttp);
 const logoutTest = () => {

@@ -41,7 +41,7 @@ export default class user {
       const {
         id, isVerified, RoleId, email,
       } = await userService.findById(res.id);
-      const token = await newJwtToken({ userId: id, role: RoleId }, '1h');
+      const token = await newJwtToken({ userId: id, RoleId }, '1h');
       const data = { userId: id, email, token };
       const message = 'your account was verified!';
       util.setSuccess(200, message, data);
@@ -128,29 +128,17 @@ export default class user {
     }
   }
 
-  static async updateUser(req, res) {
+  static async changeRole(req, res, next) {
     try {
-      const { firstName } = req.body;
-      const { lastName } = req.body;
-      const { email } = req.body;
-      const { RoleId } = req.body;
-      const data = await decodeToken(req.headers.authorization);
-      const userId = data.RoleId;
-      const updateUser = {};
-      const prop = {
-        id: req.params.id,
-      };
-      if (userId === 1) {
-        if (firstName) updateUser.firstName = firstName;
-        if (lastName) updateUser.lastName = lastName;
-        if (email) updateUser.email = email;
-        if (RoleId) updateUser.RoleId = RoleId;
-      } else {
-        util.setError(500, 'You can\'t update User role');
+      const { id } = req.params;
+      const { roleId } = req.body;
+      const userExist = await userService.findById(id);
+      if (userExist) {
+        const update = await userService.updateAtt({ RoleId: roleId }, { id });
+        util.setSuccess('200', 'Role Updated');
         return util.send(res);
       }
-      const updatedUser = await userService.updateAtt(updateUser, prop);
-      util.setSuccess(200, 'User updated successfully', updateUser);
+      util.setError(400, 'The user doesn\'t exist');
       return util.send(res);
     } catch (error) {
       util.setError(500, error.message);
@@ -203,7 +191,41 @@ export default class user {
         });
         return util.send(res);
       }
+    } catch (error) {
       util.setError(500, 'Failed to create your account');
+      return util.send(res);
+    }
+  }
+
+  static async assignUsers(req, res) {
+    try {
+      const { lineManagerId } = req.body;
+      const { userId } = req.body;
+      const lineManager = await userService.findByLineManagerId(lineManagerId);
+      if (lineManager) {
+        const update = await userService.updateAtt({ lineManager: lineManagerId }, { id: userId });
+        util.setSuccess('200', 'user is assigned to the manager');
+        return util.send(res);
+      }
+      util.setError(400, 'The manager doesn\'t exist');
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  static async getUsers(req, res) {
+    try {
+      const { id } = req.params;
+      const users = await userService.getUsers(id);
+      if (users.length >= 1) {
+        const message = 'the users assigned to that manager are found';
+        util.setSuccess(200, message, users);
+        return util.send(res);
+      }
+      util.setError(400, 'The manager doesn\'t have users');
+
       return util.send(res);
     } catch (error) {
       util.setError(500, error.message);

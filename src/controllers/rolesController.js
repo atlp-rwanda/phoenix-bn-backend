@@ -9,17 +9,15 @@ export default class Role {
       util.setSuccess(200, 'all roles', roles);
       return util.send(res);
     } catch (error) {
-      util.setError(500, 'Unable to retrieve all roles');
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
 
   static async saveRole(req, res) {
     try {
-      const newRole = {
-        name: req.body.name,
-      };
-      const createdRole = await roleService.createRole(newRole);
+      const { name } = req.body;
+      const createdRole = await roleService.createRole({ name });
       util.setSuccess(200, 'Role created', createdRole);
       return util.send(res);
     } catch (error) {
@@ -30,55 +28,51 @@ export default class Role {
 
   static async findRole(req, res) {
     try {
-      const modelId = req.params.id;
-      const singleRole = await roleService.findById(modelId);
+      const { id } = req.params;
+      const singleRole = await roleService.findById(id);
       util.setSuccess(200, 'Successfully retrieved Role', singleRole);
       return util.send(res);
     } catch (error) {
-      util.setError(500, 'Sorry Role was not retrived');
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
 
   static async findRoleByName(req, res) {
     try {
-      const nameProp = {
-        name: req.params.name,
-      };
-      const singleRole = await roleService.findByName(nameProp);
+      const { name } = req.params;
+
+      const singleRole = await roleService.findByName({ name });
       util.setSuccess(200, 'Successfully retrieved Role', singleRole);
       return util.send(res);
     } catch (error) {
-      util.setError(500, 'sorry Role was not retrieved');
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
 
   static async updateRole(req, res) {
     try {
-      const updateRole = {
-        name: req.body.name,
-      };
-      const prop = {
-        id: req.params.id,
-      };
-      const updatedRole = await roleService.updateAtt(updateRole, prop);
+      const { name } = req.body;
+      const { id } = req.params;
+
+      const updatedRole = await roleService.updateAtt({ name }, { id });
       util.setSuccess(200, 'Role updated successfuly', updatedRole);
       return util.send(res);
     } catch (error) {
-      util.setError(500, 'Sorry Role not deleted');
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
 
   static async deleteRole(req, res) {
     try {
-      const modelId = req.params.id;
-      const deletedRole = await roleService.deleteRole(modelId);
+      const { id } = req.params;
+      const deletedRole = await roleService.deleteRole(id);
       util.setSuccess(200, 'Role deleted successfully', deletedRole);
       return util.send(res);
     } catch (error) {
-      util.setError(500, 'Sorry Role was not deleted');
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
