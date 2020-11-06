@@ -5,6 +5,7 @@ import { assignUsers } from './assignUsers.swagger';
 import { resetPassword } from './passwordReset.swagger';
 import { logout } from './userLogout.swagger';
 import { sendTripRequest } from './sendTripRequest.swagger';
+import { commentOnRequest } from './comment.swagger';
 
 dotenv.config();
 const paths = {
@@ -14,6 +15,7 @@ const paths = {
   ...logout,
   ...sendTripRequest,
   ...assignUsers,
+  ...commentOnRequest,
 };
 
 const config = {

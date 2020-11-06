@@ -128,7 +128,6 @@ export default class user {
   }
 
   static async changeRole(req, res, next) {
-
     try {
       const { id } = req.params;
       const { roleId } = req.body;
@@ -144,8 +143,6 @@ export default class user {
       util.setError(500, error.message);
       return util.send(res);
     }
-
-
   }
 
   static async userLogout(req, res) {
@@ -178,7 +175,6 @@ export default class user {
       util.setError(500, error.message);
       return util.send(res);
     }
-
   }
 
   static async getUsers(req, res) {

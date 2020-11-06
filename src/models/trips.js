@@ -13,28 +13,34 @@ module.exports = (sequelize, DataTypes) => {
       trips.belongsTo(models.Users, {
         foreignKey: 'user_id',
         onDelete: 'CASCADE',
-        onUpdate:'CASCADE',
-        foreignKeyConstraint :true,
+        onUpdate: 'CASCADE',
+        foreignKeyConstraint: true,
       });
       trips.belongsTo(models.Users, {
         foreignKey: 'line_manager',
         onDelete: 'CASCADE',
-        onUpdate:'CASCADE',
-        foreignKeyConstraint :true,
+        onUpdate: 'CASCADE',
+        foreignKeyConstraint: true,
       });
       trips.belongsTo(models.Users, {
         foreignKey: 'user_id',
         onDelete: 'CASCADE',
-        onUpdate:'CASCADE',
-        foreignKeyConstraint :true,
+        onUpdate: 'CASCADE',
+        foreignKeyConstraint: true,
       });
       trips.belongsTo(models.Accomodations, {
         foreignKey: 'accomodation_id',
         onDelete: 'CASCADE',
-        onUpdate:'CASCADE',
-        foreignKeyConstraint :true,
+        onUpdate: 'CASCADE',
+        foreignKeyConstraint: true,
         as: 'trip',
 
+      });
+      trips.hasMany(models.Comment, {
+        foreignKey: 'request_id',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        foreignKeyConstraint: true,
       });
     }
   }
