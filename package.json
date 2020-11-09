@@ -42,7 +42,7 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0",
-    "sinon": "^9.2.0",
+    "sinon": "^9.2.1",
     "swagger-jsdoc": "^4.2.3",
     "swagger-ui-express": "^4.1.4"
   },
