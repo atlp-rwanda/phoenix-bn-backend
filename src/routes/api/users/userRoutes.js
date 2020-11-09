@@ -9,8 +9,8 @@ import verification from '../../../middlewares/verifications/verification';
 import authorizationValidator from '../../../middlewares/validators/isAuthenticated';
 import { isAuthenticated, allowedRoles } from '../../../middlewares/authorization';
 
-const router = express.Router();
 
+const router = express.Router();
 const { createUserValidation } = ValidationMiddleWare;
 router.post('/signup', validate.signupValidate, usersController.signupWithEmail);
 router.get('/verify/:token', validate.verifyEmail, usersController.verifyEmail);
@@ -28,8 +28,7 @@ router.put('/reset-password/:token', validate.passwordMatch, verification.tokenV
 router.put('/changeRole/:id', isAuthenticated, allowedRoles([1]), validate.roleExist, usersController.changeRole);
 router.put('/manager/assign', isAuthenticated, allowedRoles([3]), usersController.assignUsers);
 router.get('/manager/:id', isAuthenticated, allowedRoles([3]), usersController.getUsers);
-router.put('/updateProfile/:id', isAuthenticated, usersController.updateProfile);
-
-router.post("/profileImage/upload", isAuthenticated, fileController.upload);
+router.put('/updateProfile', isAuthenticated, usersController.updateProfile);
 router.get('/profile/:id', isAuthenticated, usersController.getProfile);
+router.put('/upload', isAuthenticated, fileController.upload)
 export default router;

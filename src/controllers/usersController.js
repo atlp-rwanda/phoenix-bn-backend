@@ -177,7 +177,7 @@ export default class user {
       if (newUser) {
         const payload = {
           email: newUser.email,
-          userId: newUser.id,
+          id: newUser.id,
           roleId: newUser.roleId,
         };
         const token = await newJwtToken(payload, '1h');
@@ -185,7 +185,7 @@ export default class user {
 
         util.setSuccess(200, 'Account created', {
           email: newUser.email,
-          userId: newUser.id,
+          Id: newUser.id,
           roleId: newUser.roleId,
           token,
         });
@@ -236,12 +236,8 @@ export default class user {
 
   static async updateProfile(req, res) {
     try {
-      const { id } = req.params;
-      const { firstName } = req.body;
-      const { lastName } = req.body;
-      const { email } = req.body;
-      const { preferedLanguage } = req.body;
-      const { officeAddress } = req.body;
+      const { id } = req.userInfo;
+      const { firstName, lastName, email, preferedLanguage, officeAddress } = req.body;
 
       const userExist = await userService.findById(id);
       if (userExist) {
@@ -263,10 +259,10 @@ export default class user {
 
       const { id } = req.params;
       const {
-        firstName, lastName, email, preferedLanguage, officeAddress
+        firstName, lastName, email, profilePicture, preferedLanguage, officeAddress
       } = await userService.findById(id);
 
-      const data = {  firstName, lastName, email, preferedLanguage, officeAddress };
+      const data = { firstName, lastName, email, profilePicture, preferedLanguage, officeAddress };
       const message = 'profile details displayed successfully!';
       util.setSuccess(200, message, data);
       return util.send(res);

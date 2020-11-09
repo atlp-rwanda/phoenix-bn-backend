@@ -24,11 +24,8 @@ const paths = {
   ...editMyTripRequest,
   ...cancelMyTripRequest,
   ...assignUsers,
-<<<<<<< HEAD
   ...commentOnRequest,
-=======
   ...updateProfile,
->>>>>>> 1d5507f (ft-updateProfile:)
 };
 
 const config = {
