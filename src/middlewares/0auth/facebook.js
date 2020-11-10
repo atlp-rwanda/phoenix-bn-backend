@@ -3,6 +3,7 @@ import { pick } from 'lodash';
 import AuthTokenHelper from '../../helpers/AuthTokenHelper';
 import Util from '../../helpers/utils';
 import userService from '../../services/userService';
+import usersController from '../../controllers/usersController';
 
 const util = new Util();
 const facebookAuth = async (req, res) => {
@@ -24,9 +25,7 @@ const facebookAuth = async (req, res) => {
     return util.send(res);
   }
   if (currentUser === null) {
-    util.message = 'Account not Found';
-    util.statusCode = 400;
-    return util.send(res);
+    return usersController.socialSignup(req.user, res);
   }
 };
 

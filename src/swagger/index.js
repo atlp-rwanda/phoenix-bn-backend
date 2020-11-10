@@ -6,6 +6,10 @@ import { resetPassword } from './passwordReset.swagger';
 import { logout } from './userLogout.swagger';
 import { sendTripRequest } from './sendTripRequest.swagger';
 import { commentOnRequest } from './comment.swagger';
+import {approveTripRequest} from './approveTripRequest.swagger';
+import {rejectTripRequest} from './rejectTripRequest.swager';
+import { editMyTripRequest } from './editMyTripRequest.swagger';
+import { cancelMyTripRequest } from './cancelMyTrip.swagger';
 
 dotenv.config();
 const paths = {
@@ -14,6 +18,10 @@ const paths = {
   ...resetPassword,
   ...logout,
   ...sendTripRequest,
+  ...approveTripRequest,
+  ...rejectTripRequest,
+  ...editMyTripRequest,
+  ...cancelMyTripRequest,
   ...assignUsers,
   ...commentOnRequest,
 };
