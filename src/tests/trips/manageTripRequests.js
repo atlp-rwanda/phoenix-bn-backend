@@ -1,11 +1,8 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable no-undef */
 import chai from 'chai';
-import expect from 'chai';
-import {myTrips} from '../../controllers/tripsController';
-import chaiHttp from 'chai-http';
 import server from '../../app';
-import { requesterToken, lineManagerToken, adminToken } from '../users/login.test';
+import { requesterToken, lineManagerToken } from '../users/login.test';
 const manageTripRequest=()=>{
   it('it should not dislay all created trip request as report for unauthorized users', (done) => {
     chai.request(server)
@@ -44,6 +41,28 @@ const manageTripRequest=()=>{
         done();
       });
   });
+  it('It should allow user to cancel his rejected trip request', (done) => {
+    chai.request(server)
+      .delete('/api/v1/trips/cancel')
+      .set('authorization',requesterToken)
+      .send({id:1})
+      .end((err, response) => {
+        response.should.have.status(200);
+        done();
+      });
+  });
+  it('It should not allow unauthorized user to cancel rejected trip request', (done) => {
+    const badRequestersToken='fyfyfyfyfy';
+    chai.request(server)
+      .delete('/api/v1/trips/cancel')
+      .set('authorization',badRequestersToken)
+      .send({Tid:73})
+      .end((err, response) => {
+        response.should.have.status(500);
+        done();
+      });
+  });
+  
   
 
 }

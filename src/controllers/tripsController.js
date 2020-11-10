@@ -86,6 +86,12 @@ export default class controller {
   static async approveRequest(req,res){
     try {
       const requestId=req.body.requestId;
+      const tripToApprove=await tripsService.findById(requestId);
+      if (!tripToApprove) {
+        const error=new Error('The trips request you are trying to approve is not exist in our records');
+        error.statusCode=500;
+        throw error;
+      }
       const approve=await tripsService.updateAtt({status:'approved'},{id:requestId});
       if(!approve){
         const error=new Error('This request is not longer exist in you report');
@@ -104,6 +110,12 @@ export default class controller {
   static async rejectRequest(req,res){
     try {
       const requestId=req.body.requestId;
+      const tripToReject=await tripsService.findById(requestId);
+      if (!tripToReject) {
+        const error=new Error('The trips request you are trying to reject is not exist in our records');
+        error.statusCode=500;
+        throw error;
+      }
       if(requestId){
         const approve=await tripsService.updateAtt({status:'Rejected'},{id:requestId});
         util.setSuccess(200, 'Your trip request is not approved try again');
@@ -122,6 +134,12 @@ export default class controller {
     try {
     const { id } = req.userInfo;
     const {Tid,travelDate,returnDate,destination,origin,accomodation,reason}=req.body;
+    const tripToEdit=await tripsService.findById(Tid);
+    if (!tripToEdit) {
+      const error=new Error('The trips request you are trying toEdit is not exist in our records');
+      error.statusCode=500;
+      throw error;
+    }
     const trips = await tripsService.updateAtt({travelDate,returnDate,destination,origin,accomodation,reason},{id:Tid,status:"Rejected"});
     
     if(!id||trips[0]===0){
@@ -141,6 +159,12 @@ export default class controller {
   static async cancelMytripRequest(req,res){
       try {
         const {id}=req.body;
+        const tripToCancel=await tripsService.findById(id);
+      if (!tripToCancel) {
+        const error=new Error('The trips request you are trying to cancel is not exist in our records');
+        error.statusCode=500;
+        throw error;
+      }
         const trips = await tripsService.cancelTrip(id);
        if(trips===0){
         const error=new Error('Only trip request that has not been accepted can be deleted');
@@ -159,6 +183,3 @@ export default class controller {
   }
  
 }
-
-
- 
