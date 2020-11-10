@@ -52,5 +52,10 @@ class tripsService {
       where: { id: modelId },
     });
   }
+  static cancelTrip(modelId) {
+    return trips.destroy({
+      where: { id: modelId,status:'Rejected' },
+    });
+  }
 }
 export default tripsService;
