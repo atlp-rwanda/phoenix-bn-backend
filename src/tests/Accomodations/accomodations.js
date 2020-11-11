@@ -31,9 +31,10 @@ const createAccomodation = () => {
         .field('description', 'test Accomodation desc')
         .field('location_id', parseInt(locationId))
         .field('amenities', '["wifi","sanning"]')
+        .field('roomsAvailable', 20)
+        .field('numberOfRooms', 50)
         .attach('files', `${__dirname}/images/images.png`)
         .end((err, response) => {
-          console.log(response.body);
           response.should.have.status(201);
           accomodationId = response.body.data.id;
           done();
@@ -80,7 +81,6 @@ const createAccomodation = () => {
         .field('amenities', '["wifi","sanning"]')
         .attach('files', `${__dirname}/images/images.png`)
         .end((err, response) => {
-          console.log(response.body);
           response.should.have.status(200);
           done();
         });
@@ -99,7 +99,6 @@ const createAccomodation = () => {
         .set('authorization', travelAdminToken)
         .end((err, response) => {
           response.should.have.status(200);
-          console.log(`wwwwwwwwwwwwwww --- ${locationId}`);
           done();
         });
     });

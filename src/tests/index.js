@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import welcome from './welcome.test';
 import manualRegistration from './registration/manualSignUp';
-import socialSignUpTest from './socialSignUpTest/socialSignUpTest.test.js';
+import socialSignUpTest from './socialSignUpTest/socialSignUpTest.test';
 import facebookLoginTest from './signinTest/facebookLogin.test';
 import googleLoginTest from './signinTest/googleLogin.test';
 import manualLogintest from './signinTest/manualLogin.test';
@@ -16,10 +16,8 @@ import { createlocations } from './Accomodations/locations';
 import { createAccomodation } from './Accomodations/accomodations';
 import createTrip from './trips/createTripRequest';
 import comments from './comments/comment.test';
-import manageTrip from './trips/manageTripRequests'
-import { createRooms } from './Accomodations/rooms';
+import manageTrip from './trips/manageTripRequests';
 import { DeleteAccomos } from './Accomodations/delete';
-
 
 describe('test the first endpoint', welcome);
 describe('test the manual login endpoint', manualLogintest);
@@ -37,7 +35,6 @@ describe('Test for assigning users to manager endpoints', assignUsers);
 describe('Test for locations', createlocations);
 describe('Accomodations Test', createAccomodation);
 describe('test for creating and view trip request', createTrip);
-describe('Rooms Test', createRooms);
-describe('Delete rooms,locations and accomodations', DeleteAccomos);
+describe('Delete locations and accomodations', DeleteAccomos);
 describe('test to comments on request', comments);
-describe('Test for managing trip request',manageTrip);
+describe('Test for managing trip request', manageTrip);

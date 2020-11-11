@@ -55,7 +55,6 @@ const createlocations = () => {
         .send(location)
         .set('authorization', travelAdminToken)
         .end((err, response) => {
-          console.log(response.body);
           response.should.have.status(200);
           done();
         });
@@ -66,7 +65,6 @@ const createlocations = () => {
         .send(location)
         .set('authorization', travelAdminToken)
         .end((err, response) => {
-          console.log(response.body);
           response.should.have.status(404);
           done();
         });
@@ -77,7 +75,6 @@ const createlocations = () => {
         .send(location)
         .set('authorization', travelAdminToken)
         .end((err, response) => {
-          console.log(response.body);
           response.should.have.status(200);
           done();
         });

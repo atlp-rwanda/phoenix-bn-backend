@@ -13,14 +13,15 @@ export default class controller {
         description: req.body.description,
         location_id: req.body.location_id,
         amenities: req.amenities,
+        numberOfRooms: req.body.numberOfRooms,
+        roomsAvailable: req.body.roomsAvailable,
         image,
       };
-      console.log(image);
       const newAccomodation = await accomodationService.create(accomodation);
       util.setSuccess(201, 'Accomodation Created', newAccomodation);
       util.send(res);
     } catch (error) {
-      util.setError(500, error.message);
+      util.setError(500, error);
       util.send(res);
     }
   }

@@ -7,20 +7,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      price: {
-        type: Sequelize.STRING,
+      userId: {
+        type: Sequelize.INTEGER,
       },
       accomodation_id: {
         type: Sequelize.INTEGER,
       },
-      images: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
+      checkIn: {
+        type: Sequelize.DATE,
       },
-      details: {
-        type: Sequelize.STRING,
-      },
-      roomNumber: {
-        type: Sequelize.STRING,
+      checkOut: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,

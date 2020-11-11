@@ -22,6 +22,16 @@ module.exports = {
       image: {
         type: Sequelize.STRING,
       },
+      roomsAvailable: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      numberOfRooms: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

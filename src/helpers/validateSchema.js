@@ -1,4 +1,4 @@
-import joi from 'joi';
+import joi, { string } from 'joi';
 
 export const signupValidateSchema = joi.object({
   email: joi.string().required().email(),
@@ -43,6 +43,9 @@ export const accomodationSchema = joi.object({
   location_id: joi.number().required(),
   amenities: joi.array().min(1).required(),
   image: joi.string(),
+  roomsAvailable: joi.number().required().min(0),
+  numberOfRooms: joi.number().required().min(0),
+
 });
 export const accomodationUpdateSchema = joi.object({
   name: joi.string().min(4),

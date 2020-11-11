@@ -227,8 +227,8 @@ export default class validator {
     try {
       const { destination } = req.body;
       const accomodation = req.body.accomodation || req.params.accomodation;
-      const chk = await accomodationService.findByIdAndLocation(accomodation, destination);
-      if (!chk) {
+      const checkByLocation = await accomodationService.findByIdAndLocation(accomodation, destination);
+      if (!checkByLocation) {
         util.setError(404, 'Accomodation not found in any of the destination(s) you provided');
         return util.send(res);
       }
@@ -242,8 +242,8 @@ export default class validator {
   static async Acommodation(req, res, next) {
     try {
       const id = req.params.accomodation;
-      const chkAcc = await accomodationService.findById(id);
-      if (!chkAcc) {
+      const findById = await accomodationService.findById(id);
+      if (!findById) {
         util.setError(404, 'Accomodation not found');
         return util.send(res);
       }
@@ -278,6 +278,8 @@ export default class validator {
         location_id: req.body.location_id,
         amenities,
         image: req.body.image,
+        numberOfRooms: req.body.numberOfRooms,
+        roomsAvailable: req.body.roomsAvailable,
       };
       const { error } = accomodationSchema.validate(accomodation);
       if (error) {
