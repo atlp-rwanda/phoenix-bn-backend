@@ -12,11 +12,10 @@ const logoutTest = () => {
       chai.request(server)
         .post('/api/v1/users/logout')
         .end((err, response) => {
-          response.should.have.status(401); 
+          response.should.have.status(401);
           done();
         });
     });
   });
-  
 };
 export default logoutTest;

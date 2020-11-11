@@ -16,9 +16,9 @@ export const assignUsers = {
           required: true,
           description: 'The id of the manager and the id of the user you want to give a manager',
           schema: {
-            example: {            
-              lineManagerId : 4,
-              userId : 2
+            example: {
+              lineManagerId: 4,
+              userId: 2,
             },
           },
         },
@@ -32,14 +32,13 @@ export const assignUsers = {
         },
         400: {
           description: 'The manager doesnot exists',
-        },     
+        },
         500: {
           description: 'jwt expired',
         },
       },
     },
   },
-
 
   '/api/v1/users/manager/4': {
     get: {
@@ -59,10 +58,10 @@ export const assignUsers = {
           description: 'The manager doesnot have users',
         },
         500: {
-            description: 'jwt expired',
+          description: 'jwt expired',
         },
       },
     },
   },
-  
+
 };

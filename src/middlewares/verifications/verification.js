@@ -1,4 +1,6 @@
 import userService from '../../services/userService';
+import locationService from '../../services/locationService';
+import accomodationService from '../../services/accomodationService';
 import Util from '../../helpers/utils';
 import { newJwtToken } from '../../helpers/tokenGenerator';
 import { decodeToken } from './verifyToken';
@@ -43,6 +45,38 @@ export default class verifications {
     } catch (error) {
       util.setError(500, error.message.replace('jwt expired', 'Link Expired'));
       return util.send(res);
+    }
+  }
+
+  static async location(req, res, next) {
+    try {
+      const location_id = req.body.location_id || req.params.location_id;
+      const locationValid = await locationService.findById(location_id);
+      if (locationValid) {
+        next();
+      } else {
+        util.setError(404, 'That location doesn\'t exists');
+        util.send(res);
+      }
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  static async accomodation(req, res, next) {
+    try {
+      const accomodation_id = req.body.accomodation_id || req.params.accomodation;
+      const accomoExist = await accomodationService.findById(accomodation_id);
+      if (accomoExist) {
+        next();
+      } else {
+        util.setError(400, 'We can\'t find that accomodation');
+        util.send(res);
+      }
+    } catch (error) {
+      util.setError(500, error.message);
+      util.send(res);
     }
   }
 }

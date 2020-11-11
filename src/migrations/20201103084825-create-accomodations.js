@@ -13,23 +13,14 @@ module.exports = {
       description: {
         type: Sequelize.TEXT,
       },
-      location: {
-        type: Sequelize.STRING,
-      },
-      cost: {
+      location_id: {
         type: Sequelize.INTEGER,
       },
-      owner: {
+      amenities: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+      },
+      image: {
         type: Sequelize.STRING,
-      },
-      status: {
-        type: Sequelize.STRING,
-      },
-      user_id: {
-        type: Sequelize.INTEGER,
-      },
-      availableRooms: {
-        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,

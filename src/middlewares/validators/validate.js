@@ -1,12 +1,20 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 import {
   signupValidateSchema,
   passwordResetSchema,
   passwordSchema,
   tripSchema,
+  locationSchema,
+  accomodationSchema,
+  accomodationUpdateSchema,
+  rooms,
 } from '../../helpers/validateSchema';
 import userService from '../../services/userService';
 import roleService from '../../services/roleService';
 import accomodationService from '../../services/accomodationService';
+import locationService from '../../services/locationService';
+import { cloudinaryUploader } from '../../helpers/cloudinaryUploader';
 
 import Util from '../../helpers/utils';
 import {
@@ -163,6 +171,7 @@ export default class validator {
         util.setError(400, Error);
         return util.send(res);
       }
+      console.log('retuned to next');
       next();
     } catch (error) {
       util.setError(500, error.message);
@@ -185,6 +194,7 @@ export default class validator {
           next();
         } else {
           req.tripType = 'one way';
+          next();
         }
       } else {
         util.setError(400, 'Travel date can\'t be in past');
@@ -196,11 +206,44 @@ export default class validator {
     }
   }
 
+  static async destinations(req, res, next) {
+    try {
+      const { destination } = req.body;
+      console.log(destination);
+      const destinations = await locationService.getLocations(destination);
+      if (destinations && destination.length === destinations.length) {
+        next();
+      } else {
+        util.setError(404, 'Location(s) Not found');
+        return util.send(res);
+      }
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
   static async checkAcommodation(req, res, next) {
     try {
-      const { accomodation } = req.body;
-      const chk = await accomodationService.findById(accomodation);
+      const { destination } = req.body;
+      const accomodation = req.body.accomodation || req.params.accomodation;
+      const chk = await accomodationService.findByIdAndLocation(accomodation, destination);
       if (!chk) {
+        util.setError(404, 'Accomodation not found in any of the destination(s) you provided');
+        return util.send(res);
+      }
+      next();
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  static async Acommodation(req, res, next) {
+    try {
+      const id = req.params.accomodation;
+      const chkAcc = await accomodationService.findById(id);
+      if (!chkAcc) {
         util.setError(404, 'Accomodation not found');
         return util.send(res);
       }
@@ -208,6 +251,96 @@ export default class validator {
     } catch (error) {
       util.setError(500, error.message);
       return util.send(res);
+    }
+  }
+
+  static async location(req, res, next) {
+    try {
+      const { error } = locationSchema.validate(req.body);
+      if (error) {
+        const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
+        util.setError(400, Error);
+        return util.send(res);
+      }
+      next();
+    } catch (error) {
+      util.setError(500, error.message);
+      util.send(res);
+    }
+  }
+
+  static async accomodation(req, res, next) {
+    try {
+      const amenities = JSON.parse(req.body.amenities);
+      const accomodation = {
+        name: req.body.name,
+        description: req.body.description,
+        location_id: req.body.location_id,
+        amenities,
+        image: req.body.image,
+      };
+      const { error } = accomodationSchema.validate(accomodation);
+      if (error) {
+        const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
+        util.setError(400, Error);
+        util.send(res);
+      }
+      req.amenities = amenities;
+      next();
+    } catch (error) {
+      util.setError(500, error.message);
+      util.send(res);
+    }
+  }
+
+  static async accomodationUpdate(req, res, next) {
+    try {
+      const { error } = accomodationUpdateSchema.validate(req.body);
+      if (error) {
+        const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
+        util.setError(400, Error);
+        util.send(res);
+      }
+      next();
+    } catch (error) {
+      util.setError(500, error.message);
+      util.send(res);
+    }
+  }
+
+  static async roomImages(req, res, next) {
+    try {
+      const images = [];
+
+      if (req.files.length > 0) {
+        for (const op of req.files) {
+          const ImageUrl = await cloudinaryUploader(op.path);
+          images.push(ImageUrl);
+        }
+        req.images = images;
+        next();
+      } else {
+        util.setError(400, 'Provide one image at least');
+        util.send(res);
+      }
+    } catch (error) {
+      util.setError(500, error.message);
+      util.send(res);
+    }
+  }
+
+  static async room(req, res, next) {
+    try {
+      const { error } = rooms.validate(req.body);
+      if (error) {
+        const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
+        util.setError(400, Error);
+        util.send(res);
+      }
+      next();
+    } catch (error) {
+      util.setError(500, error.message);
+      util.send(res);
     }
   }
 }

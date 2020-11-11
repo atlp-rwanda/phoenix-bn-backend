@@ -5,10 +5,10 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Accomodations extends Model {
     /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+         * Helper method for defining associations.
+         * This method is not a part of Sequelize lifecycle.
+         * The `models/index` file will call this method automatically.
+         */
     static associate(models) {
       // define association here
       Accomodations.hasMany(models.trips, {
@@ -18,17 +18,29 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         as: 'trip',
       });
+      Accomodations.belongsTo(models.location, {
+        foreignKey: 'location_id',
+        as: 'location',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
+      Accomodations.hasMany(models.Rooms, {
+        foreignKey: 'accomodation_id',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        as: 'accomodation',
+      });
     }
   }
   Accomodations.init({
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
-    location: DataTypes.STRING,
-    cost: DataTypes.INTEGER,
-    owner: DataTypes.STRING,
-    status: DataTypes.STRING,
-    user_id: DataTypes.INTEGER,
-    availableRooms: DataTypes.INTEGER,
+    location_id: DataTypes.INTEGER,
+    amenities: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+    },
+    image: DataTypes.STRING,
+
   }, {
     sequelize,
     modelName: 'Accomodations',
