@@ -12,14 +12,20 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'RoleId',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
-        foreignKeyConstraint :true,
-        
+        foreignKeyConstraint: true,
+
       });
       Users.hasMany(models.trips, {
         foreignKey: 'user_id',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
-        foreignKeyConstraint :true,
+        foreignKeyConstraint: true,
+      });
+      Users.hasMany(models.Comment, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        foreignKeyConstraint: true,
       });
     }
   }
