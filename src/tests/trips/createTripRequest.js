@@ -8,6 +8,7 @@ import { requesterToken, lineManagerToken, adminToken } from '../users/login.tes
 chai.should();
 chai.use(chaiHttp);
 const request1 = {
+  id: 1,
   travelDate: '2020-10-03',
   returnDate: '2020-11-03',
   destination: ['rusizi', 'ka'],
@@ -19,6 +20,7 @@ const datetime = new Date();
 const date = datetime.toISOString().slice(0, 10);
 
 const request2 = {
+  id: 1,
   travelDate: date,
   returnDate: '2020-10-04',
   destination: ['rusizi', 'ka'],
@@ -27,6 +29,7 @@ const request2 = {
   reason: 'business',
 };
 const request3 = {
+  id: 1,
   travelDate: date,
   returnDate: date,
   destination: ['rusizi', 'ka'],
@@ -34,6 +37,7 @@ const request3 = {
   accomodation: 1,
 };
 const request4 = {
+  id: 1,
   travelDate: date,
   returnDate: date,
   destination: ['rusizi', 'ka'],
@@ -43,6 +47,7 @@ const request4 = {
 };
 
 const request5 = {
+  id: 1,
   travelDate: date,
   returnDate: date,
   destination: ['rusizi', 'ka'],
