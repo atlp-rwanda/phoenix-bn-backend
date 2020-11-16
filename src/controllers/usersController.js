@@ -177,7 +177,7 @@ export default class user {
       if (newUser) {
         const payload = {
           email: newUser.email,
-          userId: newUser.id,
+          id: newUser.id,
           roleId: newUser.roleId,
         };
         const token = await newJwtToken(payload, '1h');
@@ -185,7 +185,7 @@ export default class user {
 
         util.setSuccess(200, 'Account created', {
           email: newUser.email,
-          userId: newUser.id,
+          Id: newUser.id,
           roleId: newUser.roleId,
           token,
         });
@@ -232,4 +232,45 @@ export default class user {
       return util.send(res);
     }
   }
+
+
+  static async updateProfile(req, res) {
+    try {
+      const { id } = req.userInfo;
+      const { firstName, lastName, email, preferedLanguage, officeAddress } = req.body;
+
+      const userExist = await userService.findById(id);
+      if (userExist) {
+        const update = await userService.updateAtt({ firstName: firstName, lastName: lastName, email: email, preferedLanguage: preferedLanguage, officeAddress: officeAddress }, { id });
+        util.setSuccess('200', 'user profile updated');
+        return util.send(res);
+      }
+      util.setError(400, 'The user doesn\'t exist');
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+
+  }
+
+  static async getProfile(req, res) {
+    try {
+
+      const { id } = req.params;
+      const {
+        firstName, lastName, email, profilePicture, preferedLanguage, officeAddress
+      } = await userService.findById(id);
+
+      const data = { firstName, lastName, email, profilePicture, preferedLanguage, officeAddress };
+      const message = 'profile details displayed successfully!';
+      util.setSuccess(200, message, data);
+      return util.send(res);
+
+    } catch (error) {
+      util.setError(500, "can't retrieve the data");
+      return util.send(res);
+    }
+  }
+
 }

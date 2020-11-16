@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-undef */ 
 import welcome from './welcome.test';
 import manualRegistration from './registration/manualSignUp';
 import socialSignUpTest from './socialSignUpTest/socialSignUpTest.test.js';
@@ -15,6 +15,7 @@ import createTrip from './trips/createTripRequest';
 import manageTrip from './trips/manageTripRequests'
 import assignUsers from './roles/assignUsers';
 import comments from './comments/comment.test';
+import profileUpdate from './registration/profileUpdate';
 
 describe('test the first endpoint', welcome);
 describe('test the manual login endpoint', manualLogintest);
@@ -32,3 +33,4 @@ describe('Test for assigning users to manager endpoints', assignUsers);
 describe('test for creating and view trip request', createTrip);
 describe('test to comments on request', comments);
 describe('Test for managing trip request',manageTrip);
+describe('Test for updating user profile endpoint', profileUpdate);
