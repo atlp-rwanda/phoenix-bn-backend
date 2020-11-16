@@ -42,6 +42,12 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         foreignKeyConstraint: true,
       });
+      trips.hasMany(models.notifications, {
+        foreignKey: 'tripId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        foreignKeyConstraint: true,
+      });
     }
   }
   trips.init({

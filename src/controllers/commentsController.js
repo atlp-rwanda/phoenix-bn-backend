@@ -1,6 +1,7 @@
 import Util from '../helpers/utils';
 import commentService from '../services/commentService';
 import request from '../services/tripsService';
+import { eventEmitter } from '../helpers/notifications/eventEmitter';
 
 const util = new Util();
 export default class commentsController {
@@ -18,6 +19,7 @@ export default class commentsController {
         comment: req.body.comment,
       };
       const savedcomment = await commentService.createComment(comment);
+      eventEmitter.emit('commentedOnTripRequest', { id, comment: req.body.comment, request: req.params.id });
       util.setSuccess(201, 'Comment Sent');
       return util.send(res);
     } catch (error) {

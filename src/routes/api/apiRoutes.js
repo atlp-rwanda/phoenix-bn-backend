@@ -5,6 +5,7 @@ import role from './roles/roleRoutes';
 import rolePerm from './rolepermissions/rolepermissions';
 import trips from './trips/tripsRoute';
 import comments from './comments/commentRouter';
+import notifications from './notifications/index'
 
 const router = express.Router();
 router.use('/users', user);
@@ -13,5 +14,6 @@ router.use('/roles', role);
 router.use('/rolesPermissions', rolePerm);
 router.use('/trips', trips);
 router.use('/request', comments);
+router.use('/notifications', notifications);
 
 export default router;

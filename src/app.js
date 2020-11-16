@@ -5,11 +5,13 @@ import passport from 'passport';
 import './config/passportSetup';
 import swaggerDocument from './swagger/index';
 import router from './routes/index';
+import evenListeners from './helpers/notifications/eventListeners';
 
 const app = express();
 const fileupload = require('express-fileupload');
+
 app.use(fileupload({
-  useTempFiles: true
+  useTempFiles: true,
 }));
 app.use(passport.initialize());
 app.use(passport.session());

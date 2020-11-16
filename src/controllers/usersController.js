@@ -10,7 +10,7 @@ import {
   sendPasswordResetLink,
 } from '../utils/sendPasswordLInk';
 import 'dotenv/config';
-import { decodeToken } from '../middlewares/verifications/verifyToken';
+import { eventEmitter } from '../helpers/notifications/eventEmitter';
 
 const util = new Util();
 export default class user {
@@ -204,6 +204,7 @@ export default class user {
       const lineManager = await userService.findByLineManagerId(lineManagerId);
       if (lineManager) {
         const update = await userService.updateAtt({ lineManager: lineManagerId }, { id: userId });
+        eventEmitter.emit('userAssignedToManager', { lineManagerId, userId });
         util.setSuccess('200', 'user is assigned to the manager');
         return util.send(res);
       }
@@ -233,15 +234,18 @@ export default class user {
     }
   }
 
-
   static async updateProfile(req, res) {
     try {
       const { id } = req.userInfo;
-      const { firstName, lastName, email, preferedLanguage, officeAddress } = req.body;
+      const {
+        firstName, lastName, email, preferedLanguage, officeAddress,
+      } = req.body;
 
       const userExist = await userService.findById(id);
       if (userExist) {
-        const update = await userService.updateAtt({ firstName: firstName, lastName: lastName, email: email, preferedLanguage: preferedLanguage, officeAddress: officeAddress }, { id });
+        const update = await userService.updateAtt({
+          firstName, lastName, email, preferedLanguage, officeAddress,
+        }, { id });
         util.setSuccess('200', 'user profile updated');
         return util.send(res);
       }
@@ -251,26 +255,24 @@ export default class user {
       util.setError(500, error.message);
       return util.send(res);
     }
-
   }
 
   static async getProfile(req, res) {
     try {
-
       const { id } = req.params;
       const {
-        firstName, lastName, email, profilePicture, preferedLanguage, officeAddress
+        firstName, lastName, email, profilePicture, preferedLanguage, officeAddress,
       } = await userService.findById(id);
 
-      const data = { firstName, lastName, email, profilePicture, preferedLanguage, officeAddress };
+      const data = {
+        firstName, lastName, email, profilePicture, preferedLanguage, officeAddress,
+      };
       const message = 'profile details displayed successfully!';
       util.setSuccess(200, message, data);
       return util.send(res);
-
     } catch (error) {
-      util.setError(500, "can't retrieve the data");
+      util.setError(500, 'can\'t retrieve the data');
       return util.send(res);
     }
   }
-
 }
