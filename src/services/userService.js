@@ -35,8 +35,8 @@ class UserService {
     return Users.findAll(
       {
         where: {
-          lineManager: id,
-          isVerified: true,
+          userId: id,
+          isVerified: "inactive",
         },
         attributes: ['id', 'email', 'RoleId', 'lineManager', 'isVerified'],
       },
