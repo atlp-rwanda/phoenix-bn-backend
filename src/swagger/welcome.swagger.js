@@ -1,5 +1,5 @@
 export const welcome = {
-  
+
   '/': {
     get: {
       tags: [

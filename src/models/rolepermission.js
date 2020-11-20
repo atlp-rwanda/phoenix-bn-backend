@@ -1,7 +1,7 @@
-'use strict';
 const {
-  Model
+  Model,
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class rolePermission extends Model {
     /**
@@ -12,10 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  };
+  }
   rolePermission.init({
     role_id: DataTypes.INTEGER,
-    permission_id: DataTypes.STRING
+    permission_id: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'rolePermission',

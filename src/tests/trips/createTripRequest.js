@@ -4,6 +4,8 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../app';
 import { requesterToken, lineManagerToken, adminToken } from '../users/login.test';
+import { accomodationId } from '../Accomodations/accomodations';
+import { locationId } from '../Accomodations/locations';
 
 chai.should();
 chai.use(chaiHttp);
@@ -11,9 +13,9 @@ const request1 = {
   id: 1,
   travelDate: '2020-10-03',
   returnDate: '2020-11-03',
-  destination: ['rusizi', 'ka'],
+  destination: [locationId],
   origin: 'kigali',
-  accomodation: 1,
+  accomodation: accomodationId,
   reason: 'business',
 };
 const datetime = new Date();
@@ -36,25 +38,6 @@ const request3 = {
   origin: 'kigali',
   accomodation: 1,
 };
-const request4 = {
-  id: 1,
-  travelDate: date,
-  returnDate: date,
-  destination: ['rusizi', 'ka'],
-  origin: 'kigali',
-  accomodation: 1,
-  reason: 'business',
-};
-
-const request5 = {
-  id: 1,
-  travelDate: date,
-  returnDate: date,
-  destination: ['rusizi', 'ka'],
-  origin: 'kigali',
-  accomodation: 400,
-  reason: 'business',
-};
 
 const createTripRequest = () => {
   describe('POST /', () => {
@@ -62,7 +45,6 @@ const createTripRequest = () => {
       chai.request(server)
         .post('/api/v1/trips/request')
         .end((err, response) => {
-          console.log(response.body);
           response.should.have.status(500);
           done();
         });
@@ -103,7 +85,14 @@ const createTripRequest = () => {
     it('can\'t create request user not allowed', (done) => {
       chai.request(server)
         .post('/api/v1/trips/request')
-        .send(request4)
+        .send({
+          travelDate: date,
+          returnDate: date,
+          destination: [locationId],
+          origin: 'kigali',
+          accomodation: accomodationId,
+          reason: 'business',
+        })
         .set('authorization', adminToken)
         .end((err, response) => {
           console.log(response.body);
@@ -114,7 +103,14 @@ const createTripRequest = () => {
     it('can\'t create request accomodation dont exist', (done) => {
       chai.request(server)
         .post('/api/v1/trips/request')
-        .send(request5)
+        .send({
+          travelDate: date,
+          returnDate: date,
+          destination: [locationId],
+          origin: 'kigali',
+          accomodation: 400,
+          reason: 'business',
+        })
         .set('authorization', requesterToken)
         .end((err, response) => {
           console.log(response.body);
@@ -125,7 +121,14 @@ const createTripRequest = () => {
     it('created request', (done) => {
       chai.request(server)
         .post('/api/v1/trips/request')
-        .send(request4)
+        .send({
+          travelDate: date,
+          returnDate: date,
+          destination: [locationId],
+          origin: 'kigali',
+          accomodation: accomodationId,
+          reason: 'business',
+        })
         .set('authorization', requesterToken)
         .end((err, response) => {
           console.log(response.body);
@@ -136,7 +139,6 @@ const createTripRequest = () => {
     it('display all trip request', (done) => {
       chai.request(server)
         .get('/api/v1/trips/mine')
-        .send(request4)
         .set('authorization', requesterToken)
         .end((err, response) => {
           response.should.have.status(200);
