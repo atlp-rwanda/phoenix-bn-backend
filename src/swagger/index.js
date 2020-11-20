@@ -10,6 +10,7 @@ import {approveTripRequest} from './approveTripRequest.swagger';
 import {rejectTripRequest} from './rejectTripRequest.swager';
 import { editMyTripRequest } from './editMyTripRequest.swagger';
 import { cancelMyTripRequest } from './cancelMyTrip.swagger';
+import { updateProfile } from './updateProfile.swagger';
 
 dotenv.config();
 const paths = {
@@ -24,6 +25,7 @@ const paths = {
   ...cancelMyTripRequest,
   ...assignUsers,
   ...commentOnRequest,
+  ...updateProfile,
 };
 
 const config = {
