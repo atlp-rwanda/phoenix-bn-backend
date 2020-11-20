@@ -60,5 +60,21 @@ class RoomsService {
       where: { id: modelId },
     });
   }
+
+  static findByRoomStatus(id) {
+    return Rooms.findAll({
+
+      where: {
+        userId: id,
+        Status: "inactive",
+      },
+      attributes: {
+        exclude: ['price', 'images', 'details', 'roomNumber', 'updatedAt', 'createdAt'],
+      },
+    });
+  }
+
+
+
 }
 export default RoomsService;

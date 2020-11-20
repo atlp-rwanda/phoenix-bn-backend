@@ -73,5 +73,15 @@ class AccomodationsService {
   static deleteAccomodation(modelId) {
     return Accomodations.destroy({ where: { id: modelId } });
   }
+
+  static findByAccomoId(prop) {
+    return Accomodations.findAll({
+      where: prop,
+      attributes: {
+        exclude: ['image', 'amenities', 'location_id', 'description', 'updatedAt', 'createdAt'],
+      },
+    });
+  }
+
 }
 export default AccomodationsService;

@@ -19,6 +19,10 @@ module.exports = {
       checkOut: {
         type: Sequelize.DATE,
       },
+      Status: {
+        type: Sequelize.STRING,
+        defaultValue: "inactive",
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

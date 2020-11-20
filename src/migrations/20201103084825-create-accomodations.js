@@ -22,12 +22,12 @@ module.exports = {
       image: {
         type: Sequelize.STRING,
       },
-      roomsAvailable: {
+      roomCapacity: {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0,
       },
-      numberOfRooms: {
+      roomLeft: {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0,
