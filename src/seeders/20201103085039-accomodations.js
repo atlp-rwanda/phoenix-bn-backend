@@ -5,6 +5,8 @@ module.exports = {
       description: 'five starts hotel located in nyungwe ',
       location_id: 1,
       image: 'assets/images',
+      capacity: '10',
+      roomsLeft: '10',
       amenities: ['wifi', 'parking', 'printry'],
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -13,10 +15,12 @@ module.exports = {
       description: 'Hotel located in kigali',
       location_id: 1,
       image: 'assets/images',
+      capacity: '10',
+      roomsLeft: '10',
       amenities: ['wifi', 'parking', 'printry', 'water view'],
       createdAt: new Date(),
       updatedAt: new Date(),
-    }], { });
+    }], {});
   },
 
   down: async (queryInterface, Sequelize) => {

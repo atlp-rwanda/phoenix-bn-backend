@@ -20,13 +20,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Rooms.init({
-    price: DataTypes.STRING,
+    userId: DataTypes.INTEGER,
     accomodation_id: DataTypes.INTEGER,
-    images: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-    },
-    details: DataTypes.STRING,
-    roomNumber: DataTypes.STRING,
+    checkIn: DataTypes.DATE,
+    checkOut: DataTypes.DATE,
+    Status: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Rooms',

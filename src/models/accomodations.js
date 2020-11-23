@@ -40,8 +40,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
     },
     image: DataTypes.STRING,
-    roomsAvailable: DataTypes.INTEGER,
-    numberOfRooms: DataTypes.INTEGER,
+    capacity: DataTypes.INTEGER,
+    roomsLeft: DataTypes.INTEGER,
 
   }, {
     sequelize,
