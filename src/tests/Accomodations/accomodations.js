@@ -17,6 +17,7 @@ const createAccomodation = () => {
       chai.request(server)
         .post('/api/v1/accomodations')
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(500);
           done();
         });
@@ -35,6 +36,7 @@ const createAccomodation = () => {
         .field('numberOfRooms', 50)
         .attach('files', `${__dirname}/images/images.png`)
         .end((err, response) => {
+          console.log(travelAdminToken);
           response.should.have.status(201);
           accomodationId = response.body.data.id;
           done();
@@ -50,8 +52,11 @@ const createAccomodation = () => {
         .field('description', 'test Accomodation desc')
         .field('location_id', 900)
         .field('amenities', '["wifi","sanning"]')
+        .field('roomsAvailable', 20)
+        .field('numberOfRooms', 50)
         .attach('files', `${__dirname}/images/images.png`)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(404);
 
           done();
@@ -67,6 +72,7 @@ const createAccomodation = () => {
         .field('amenities', '["wifi","sanning"]')
         .attach('files', `${__dirname}/images/images.png`)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(400);
           done();
         });
@@ -81,6 +87,7 @@ const createAccomodation = () => {
         .field('amenities', '["wifi","sanning"]')
         .attach('files', `${__dirname}/images/images.png`)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(200);
           done();
         });
@@ -89,6 +96,7 @@ const createAccomodation = () => {
       chai.request(server)
         .get(`/api/v1/accomodations/${locationId}`)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(200);
           done();
         });
@@ -98,6 +106,7 @@ const createAccomodation = () => {
         .get('/api/v1/accomodations/')
         .set('authorization', travelAdminToken)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(200);
           done();
         });
