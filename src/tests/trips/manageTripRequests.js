@@ -47,6 +47,7 @@ const manageTripRequest=()=>{
       .set('authorization',requesterToken)
       .send({id:1})
       .end((err, response) => {
+        console.log(response.body);
         response.should.have.status(200);
         done();
       });

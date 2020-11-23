@@ -24,6 +24,11 @@ const manager = {
   email: 'manager@barefoot.com',
   password: '123456',
 };
+const travelAdmin = {
+  email: 'travelAdmin@barefoot.com',
+  password: '123456',
+};
+
 let requesterToken = '';
 let lineManagerToken = '';
 let adminToken = '';
@@ -31,6 +36,8 @@ let managerToken = '';
 let requesterId = '';
 let managerId = '';
 let lineManagerId = '';
+let travelAdminToken = '';
+let travelAdminId = '';
 
 const loginTests = () => {
   describe('POST /', () => {
@@ -79,10 +86,29 @@ const loginTests = () => {
           done();
         });
     });
+    it('log travel Admin', (done) => {
+      chai.request(server)
+        .post('/api/v1/users/login')
+        .send(travelAdmin)
+        .end((err, response) => {
+          response.should.have.status(200);
+          travelAdminToken = response.body.data.authToken;
+          travelAdminId = response.body.data.displayData.id;
+          done();
+        });
+    });
   });
 };
 
 export {
-  requesterToken, lineManagerToken, loginTests, adminToken, managerToken,
-  requesterId, managerId, lineManagerId,
+  requesterToken,
+  lineManagerToken,
+  loginTests,
+  adminToken,
+  managerToken,
+  requesterId,
+  managerId,
+  lineManagerId,
+  travelAdminId,
+  travelAdminToken,
 };
