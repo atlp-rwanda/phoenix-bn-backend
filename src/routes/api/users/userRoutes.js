@@ -8,7 +8,7 @@ import { getProvider } from '../../../helpers/socialProvider';
 import verification from '../../../middlewares/verifications/verification';
 import authorizationValidator from '../../../middlewares/validators/isAuthenticated';
 import { isAuthenticated, allowedRoles } from '../../../middlewares/authorization';
-
+import { fileUploader } from '../../../helpers/fileUploader';
 
 const router = express.Router();
 const { createUserValidation } = ValidationMiddleWare;
@@ -30,5 +30,5 @@ router.put('/manager/assign', isAuthenticated, allowedRoles([3]), usersControlle
 router.get('/manager/:id', isAuthenticated, allowedRoles([3]), usersController.getUsers);
 router.put('/updateProfile', isAuthenticated, usersController.updateProfile);
 router.get('/profile/:id', isAuthenticated, usersController.getProfile);
-router.put('/upload', isAuthenticated, fileController.upload)
+router.put('/upload', isAuthenticated, fileUploader.any(), fileController.upload);
 export default router;

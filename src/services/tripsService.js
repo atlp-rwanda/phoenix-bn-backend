@@ -52,9 +52,10 @@ class tripsService {
       where: { id: modelId },
     });
   }
+
   static cancelTrip(modelId) {
     return trips.destroy({
-      where: { id: modelId,status:'Rejected' },
+      where: { id: modelId, status: 'Rejected' },
     });
   }
 }

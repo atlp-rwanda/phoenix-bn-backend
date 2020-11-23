@@ -11,7 +11,7 @@
     "db:migrate:undo": "./node_modules/.bin/sequelize db:migrate:undo",
     "db:seed": "./node_modules/.bin/sequelize db:seed:all",
     "db:seed:undo:all": "./node_modules/.bin/sequelize db:seed:undo:all",
-    "test": "npm run db:migrate && npm run db:seed:undo:all && npm run db:seed && mocha --timeout 50000 --require @babel/polyfill --require @babel/register src/tests/index.js  --exit || true",
+    "test": "npm run db:migrate:undo:all && npm run db:migrate && npm run db:seed && mocha --timeout 50000 --require @babel/polyfill --require @babel/register src/tests/index.js  --exit || true",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test",
     "dev": "npm run lint  && nodemon --exec babel-node ./src/index.js"
   },

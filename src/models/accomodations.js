@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         as: 'accomodation',
       });
+      Accomodations.hasMany(models.reviews, {
+        foreignKey: 'accomodation',
+        as: 'Reviews',
+      });
     }
   }
   Accomodations.init({
@@ -40,8 +44,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
     },
     image: DataTypes.STRING,
-    roomCapacity: DataTypes.INTEGER,
-    roomLeft: DataTypes.INTEGER,
+    capacity: DataTypes.INTEGER,
+    roomsLeft: DataTypes.INTEGER,
+    averageRating: DataTypes.DOUBLE,
 
   }, {
     sequelize,

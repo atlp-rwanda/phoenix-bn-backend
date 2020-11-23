@@ -60,3 +60,7 @@ export const rooms = joi.object({
   details: joi.string().required(),
   roomNumber: joi.string().required(),
 });
+export const reviewSchema = joi.object({
+  rate: joi.number().min(1).max(5).required(),
+  comment: joi.string().required(),
+});

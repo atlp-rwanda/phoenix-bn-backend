@@ -9,11 +9,14 @@ import {
   accomodationSchema,
   accomodationUpdateSchema,
   rooms,
+  reviewSchema,
 } from '../../helpers/validateSchema';
 import userService from '../../services/userService';
 import roleService from '../../services/roleService';
 import accomodationService from '../../services/accomodationService';
 import locationService from '../../services/locationService';
+import roomsService from '../../services/roomsService';
+import reviewService from '../../services/reviewService';
 import { cloudinaryUploader } from '../../helpers/cloudinaryUploader';
 
 import Util from '../../helpers/utils';
@@ -271,8 +274,9 @@ export default class validator {
 
   static async accomodation(req, res, next) {
     try {
+      console.log(req.body);
       const amenities = JSON.parse(req.body.amenities);
-      const accomodation = {
+      const accomodationData = {
         name: req.body.name,
         description: req.body.description,
         location_id: req.body.location_id,
@@ -281,7 +285,7 @@ export default class validator {
         numberOfRooms: req.body.numberOfRooms,
         roomsAvailable: req.body.roomsAvailable,
       };
-      const { error } = accomodationSchema.validate(accomodation);
+      const { error } = accomodationSchema.validate(accomodationData);
       if (error) {
         const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
         util.setError(400, Error);
@@ -334,6 +338,44 @@ export default class validator {
   static async room(req, res, next) {
     try {
       const { error } = rooms.validate(req.body);
+      if (error) {
+        const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
+        util.setError(400, Error);
+        util.send(res);
+      }
+      next();
+    } catch (error) {
+      util.setError(500, error.message);
+      util.send(res);
+    }
+  }
+
+  static async hasBooked(req, res, next) {
+    try {
+      const { accomodation } = req.params;
+      const { id } = req.userInfo;
+      const userhasBooked = await roomsService.findByProp({ userId: id, accomodation_id: accomodation });
+      if (userhasBooked.length > 0) {
+        const hasReviewed = await reviewService.findByProp({ accomodation, userId: id });
+        if (hasReviewed) {
+          req.reviewed = true;
+        } else {
+          req.reviewed = false;
+        }
+        next();
+      } else {
+        util.setError(403, 'Not allowed to  rate this accomodation because you didn\'t book it');
+        util.send(res);
+      }
+    } catch (error) {
+      util.setError(500, error.message);
+      util.send(res);
+    }
+  }
+
+  static async review(req, res, next) {
+    try {
+      const { error } = reviewSchema.validate(req.body);
       if (error) {
         const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
         util.setError(400, Error);

@@ -88,7 +88,7 @@ export default class controller {
     }
   }
 
-  static async updateAccomodation(req, res, next) {
+  static async updateAccomodation(req, res) {
     try {
       const { newAccomodationData } = req;
       const target = {
@@ -99,6 +99,18 @@ export default class controller {
         util.setError(200, 'Accomodation Updated!');
         util.send(res);
       }
+    } catch (error) {
+      util.setError(500, error.message);
+      util.send(res);
+    }
+  }
+
+  static async oneAccomodation(req, res) {
+    try {
+      const { accomodation } = req.params;
+      const info = await accomodationService.findById(accomodation);
+      util.setSuccess(200, 'Sucess', info);
+      util.send(res);
     } catch (error) {
       util.setError(500, error.message);
       util.send(res);

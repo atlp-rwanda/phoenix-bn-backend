@@ -22,14 +22,18 @@ module.exports = {
       image: {
         type: Sequelize.STRING,
       },
-      roomCapacity: {
+      capacity: {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0,
       },
-      roomLeft: {
+      roomsLeft: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 0,
+      },
+      averageRating:{
+        type: Sequelize.DOUBLE,
         defaultValue: 0,
       },
       createdAt: {
