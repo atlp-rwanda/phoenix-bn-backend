@@ -13,7 +13,6 @@ import { cancelMyTripRequest } from './cancelMyTrip.swagger';
 import { updateProfile } from './updateProfile.swagger';
 import { bookAccomodation } from './bookAccomodation.swagger';
 
-
 dotenv.config();
 const paths = {
   ...welcome,

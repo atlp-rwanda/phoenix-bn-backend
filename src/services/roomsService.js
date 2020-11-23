@@ -66,15 +66,12 @@ class RoomsService {
 
       where: {
         userId: id,
-        Status: "active",
+        Status: 'active',
       },
       attributes: {
         exclude: ['price', 'images', 'details', 'roomNumber', 'updatedAt', 'createdAt'],
       },
     });
   }
-
-
-
 }
 export default RoomsService;

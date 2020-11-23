@@ -1,6 +1,4 @@
-
 import models from '../models';
-
 
 const { Users } = models;
 /**
@@ -36,7 +34,7 @@ class UserService {
       {
         where: {
           userId: id,
-          isVerified: "inactive",
+          isVerified: 'inactive',
         },
         attributes: ['id', 'email', 'RoleId', 'lineManager', 'isVerified'],
       },

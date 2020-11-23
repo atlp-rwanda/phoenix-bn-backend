@@ -7,6 +7,8 @@ import swaggerDocument from './swagger/index';
 import router from './routes/index';
 import evenListeners from './helpers/notifications/eventListeners';
 
+require('./helpers/schedule');
+
 const app = express();
 const fileupload = require('express-fileupload');
 
