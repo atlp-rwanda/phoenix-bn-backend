@@ -6,11 +6,13 @@ import { resetPassword } from './passwordReset.swagger';
 import { logout } from './userLogout.swagger';
 import { sendTripRequest } from './sendTripRequest.swagger';
 import { commentOnRequest } from './comment.swagger';
-import {approveTripRequest} from './approveTripRequest.swagger';
-import {rejectTripRequest} from './rejectTripRequest.swager';
+import { approveTripRequest } from './approveTripRequest.swagger';
+import { rejectTripRequest } from './rejectTripRequest.swager';
 import { editMyTripRequest } from './editMyTripRequest.swagger';
 import { cancelMyTripRequest } from './cancelMyTrip.swagger';
 import { updateProfile } from './updateProfile.swagger';
+import { bookAccomodation } from './bookAccomodation.swagger';
+
 
 dotenv.config();
 const paths = {
@@ -26,6 +28,7 @@ const paths = {
   ...assignUsers,
   ...commentOnRequest,
   ...updateProfile,
+  ...bookAccomodation,
 };
 
 const config = {
