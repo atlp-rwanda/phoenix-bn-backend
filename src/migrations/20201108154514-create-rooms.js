@@ -21,7 +21,7 @@ module.exports = {
       },
       Status: {
         type: Sequelize.STRING,
-        defaultValue: "active",
+        defaultValue: 'active',
       },
       createdAt: {
         allowNull: false,

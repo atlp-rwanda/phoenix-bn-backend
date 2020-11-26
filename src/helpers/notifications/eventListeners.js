@@ -3,6 +3,7 @@ import { eventEmitter } from './eventEmitter';
 import userServices from '../../services/userService';
 import notificationController from '../../controllers/notificationsController';
 import tripsService from '../../services/tripsService';
+import accomodationService from '../../services/accomodationService';
 
 const findUserById = async (id) => await userServices.findById(id);
 const { notifyTheUser } = notificationController;
@@ -59,4 +60,14 @@ eventEmitter.on('commentedOnTripRequest', async (info) => {
     receiver,
     message: `You have a new comment on the trip request from ${origin} on ${travelDate} : <b><i>${comment}</i></> `,
   }, receiverInfo.email);
+});
+
+eventEmitter.on('checkoutMessage', async (info) => {
+  const { id, accomodation_id, checkoutDate } = info;
+  const userInfo = await userServices.findById(id);
+  const accomodationInfo = await accomodationService.findById(accomodation_id);
+  notifyTheUser({
+    receiver: userInfo.id,
+    message: `Hello! ${userInfo.firstName} You have been checked out from accomodation  ${accomodationInfo.name} to day at ${checkoutDate} <br> <b><i> Thank you for being with us </i></b>`,
+  }, userInfo.email);
 });

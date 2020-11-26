@@ -17,7 +17,6 @@ const profileData = {
 };
 
 const profileUpdate = () => {
-
   describe('Updating user profile', () => {
     it('It should  update user profile', (done) => {
       chai.request(server)
@@ -51,6 +50,5 @@ const profileUpdate = () => {
         });
     });
   });
-
 };
 export default profileUpdate;
