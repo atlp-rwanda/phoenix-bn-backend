@@ -12,13 +12,12 @@ import { fileUploader } from '../../../helpers/fileUploader';
 
 const router = express.Router();
 const { createUserValidation } = ValidationMiddleWare;
+router.get('/me/:token', usersController.myCredintials);
 router.post('/signup', validate.signupValidate, usersController.signupWithEmail);
 router.get('/verify/:token', validate.verifyEmail, usersController.verifyEmail);
 router.post('/login', createUserValidation, usersController.login);
 router.get('/login/:provider', getProvider);
-
 router.get('/signup/:provider', getProvider);
-
 router.post('/logout', authorizationValidator.isTokenExist, authorizationValidator.isTokenValid, authorizationValidator.isUserExists, usersController.userLogout);
 
 router.get('/auth/google/redirect', passport.authenticate('google', { session: false }), OAuth.googleAuth);

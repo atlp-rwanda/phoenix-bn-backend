@@ -1,6 +1,8 @@
+/* eslint-disable radix */
 import { countBy } from 'lodash';
 import Util from '../helpers/utils';
 import tripsService from '../services/tripsService';
+import { eventEmitter } from '../helpers/notifications/eventEmitter';
 
 const util = new Util();
 export default class controller {
@@ -18,7 +20,8 @@ export default class controller {
         line_manager: req.lineManager,
         status: 'pending',
       };
-      const newTrip = await tripsService.createTrip(trip);
+      const newTripRequest = await tripsService.createTrip(trip);
+      eventEmitter.emit('tripRequestCreated', newTripRequest);
       util.setSuccess(201, 'Trip request Saved');
       return util.send(res);
     } catch (error) {
@@ -95,9 +98,9 @@ export default class controller {
       const approve = await tripsService.updateAtt({ status: 'approved' }, { id: requestId });
       if (!approve) {
         const error = new Error('This request is not longer exist in you report');
-        error.statusCode = 500;
         throw error;
       } else {
+        eventEmitter.emit('tripRequestApproveReject', requestId, 'Approved');
         util.setSuccess(200, 'Trip approved');
         return util.send(res);
       }
@@ -118,7 +121,8 @@ export default class controller {
       }
       if (requestId) {
         const approve = await tripsService.updateAtt({ status: 'Rejected' }, { id: requestId });
-        util.setSuccess(200, 'Your trip request is not approved try again');
+        eventEmitter.emit('tripRequestApproveReject', requestId, 'Rejected');
+        util.setSuccess(200, 'Your trip request was rejected');
         return util.send(res);
       }
       const error = new Error('This request is not longer exist in you report');
@@ -151,6 +155,7 @@ export default class controller {
         error.statusCode = 500;
         throw error;
       } else {
+        eventEmitter.emit('cancelEditRequest', Tid, 'Edited');
         util.setSuccess(200, 'Trip requests updated successful');
         return util.send(res);
       }
@@ -175,6 +180,7 @@ export default class controller {
         error.statusCode = 500;
         throw error;
       } else {
+        eventEmitter.emit('cancelEditRequest', id, 'canceled');
         util.setSuccess(200, 'This trip requests is canceled');
         return util.send(res);
       }

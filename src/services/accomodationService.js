@@ -25,6 +25,9 @@ class AccomodationsService {
       where: prop,
     });
   }
+  static incrementRooms(id) {
+    return Accomodations.increment({roomsLeft: 1}, { where: { id } })
+  }
 
   static getAccomodations() {
     return Accomodations.findAll({

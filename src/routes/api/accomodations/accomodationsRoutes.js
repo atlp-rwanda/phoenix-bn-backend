@@ -17,7 +17,7 @@ router.get('/', isAuthenticated, allowedRoles([2]), getAccomodations);
 router.delete('/:accomodation', isAuthenticated, allowedRoles([2]), validate.Acommodation, deleteAccomodations);
 router.patch('/:accomodation', isAuthenticated, allowedRoles([2]), fileUploader.any(), validate.accomodationUpdate, validate.Acommodation, updatableFields, updateAccomodation);
 
-router.post('/book', isAuthenticated, allowedRoles([5, 3, 2]), bookController.bookAccomodation);
+router.post('/book', isAuthenticated, allowedRoles([5, 3]), bookController.bookAccomodation);
 router.get('/book/check', isAuthenticated, allowedRoles([5, 3]), bookController.checkAvailability);
 router.get('/book/find', isAuthenticated, allowedRoles([5, 3]), bookController.findBookings);
 router.post('/review/:accomodation', isAuthenticated, allowedRoles([5, 3]), validate.Acommodation, validate.hasBooked, validate.review, reviewController.addReview);

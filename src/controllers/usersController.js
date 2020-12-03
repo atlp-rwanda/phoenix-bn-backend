@@ -10,7 +10,7 @@ import {
   sendPasswordResetLink,
 } from '../utils/sendPasswordLInk';
 import 'dotenv/config';
-import { decodeToken } from '../middlewares/verifications/verifyToken';
+import { eventEmitter } from '../helpers/notifications/eventEmitter';
 
 const util = new Util();
 export default class user {
@@ -204,6 +204,7 @@ export default class user {
       const lineManager = await userService.findByLineManagerId(lineManagerId);
       if (lineManager) {
         const update = await userService.updateAtt({ lineManager: lineManagerId }, { id: userId });
+        eventEmitter.emit('userAssignedToManager', { lineManagerId, userId });
         util.setSuccess('200', 'user is assigned to the manager');
         return util.send(res);
       }
@@ -266,6 +267,31 @@ export default class user {
       return util.send(res);
     } catch (error) {
       util.setError(500, 'can\'t retrieve the data');
+      return util.send(res);
+    }
+  }
+
+  static async myCredintials(req, res) {
+    try {
+      const { token } = req.params;
+      if (token) {
+        const userInfo = await userService.findByProp({ authToken: token });
+        if (userInfo[0]) {
+          const {
+            firstName, lastName, email, id, RoleId, authToken,
+          } = userInfo[0];
+          util.setSuccess(200, 'LoggedIn', {
+            firstName, lastName, email, id, RoleId, authToken,
+          });
+        } else {
+          util.setError(401, 'AUhtentication failed');
+        }
+        return util.send(res);
+      }
+      util.setError(400, 'Invalid Token');
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
       return util.send(res);
     }
   }
