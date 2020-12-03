@@ -40,6 +40,5 @@ describe('test for creating and view trip request', createTrip);
 describe('Delete locations and accomodations', DeleteAccomos);
 describe('test to comments on request', comments);
 describe('Test for managing trip request', manageTrip);
-describe('Test for managing trip request', manageTrip);
 describe('Test for updating user profile endpoint', profileUpdate);
 describe('Test for booking accomodation', booking);

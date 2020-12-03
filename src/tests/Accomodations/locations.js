@@ -24,6 +24,7 @@ const createlocations = () => {
         .post('/api/v1/locations')
         .set('authorization', 'bad')
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(500);
           done();
         });
@@ -34,6 +35,7 @@ const createlocations = () => {
         .send(location)
         .set('authorization', travelAdminToken)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(201);
           locationId = response.body.data.id;
           done();
@@ -45,6 +47,7 @@ const createlocations = () => {
         .send(location1)
         .set('authorization', travelAdminToken)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(400);
           done();
         });
@@ -55,6 +58,7 @@ const createlocations = () => {
         .send(location)
         .set('authorization', travelAdminToken)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(200);
           done();
         });
@@ -65,6 +69,7 @@ const createlocations = () => {
         .send(location)
         .set('authorization', travelAdminToken)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(404);
           done();
         });
@@ -75,6 +80,7 @@ const createlocations = () => {
         .send(location)
         .set('authorization', travelAdminToken)
         .end((err, response) => {
+          console.log(response.body);
           response.should.have.status(200);
           done();
         });

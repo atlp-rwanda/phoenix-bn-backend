@@ -20,7 +20,7 @@ const profileUpdate = () => {
   describe('Updating user profile', () => {
     it('It should  update user profile', (done) => {
       chai.request(server)
-        .put(`/api/v1/users/updateProfile/${requesterId}`)
+        .put('/api/v1/users/updateProfile')
         .send(profileData)
         .set('authorization', requesterToken)
         .end((err, response) => {

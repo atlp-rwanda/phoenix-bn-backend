@@ -8,6 +8,8 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
+      firstName: 'Iradukunda',
+      lastName: 'Japhet',
       email: 'requester@barefoot.com',
       password: '$2b$10$GBZgVGM5YDiE2JmhzBWxQuhTARsPQURZFQ7Y0.MsR5M6mqR.EzQ8u',
       RoleId: 5,
@@ -15,6 +17,8 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
+      firstName: 'Ingabire',
+      lastName: 'Josee',
       email: 'manager@barefoot.com',
       password: '$2b$10$GBZgVGM5YDiE2JmhzBWxQuhTARsPQURZFQ7Y0.MsR5M6mqR.EzQ8u',
       RoleId: 3,
@@ -31,6 +35,8 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     }, {
+      firstName: 'UWIMANA Benithe',
+      lastName: 'Bryan',
       email: 'travelAdmin@barefoot.com',
       password: '$2b$10$GBZgVGM5YDiE2JmhzBWxQuhTARsPQURZFQ7Y0.MsR5M6mqR.EzQ8u',
       RoleId: 2,

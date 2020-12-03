@@ -1,7 +1,9 @@
 import { Op } from 'sequelize';
 import models from '../models';
 
-const { Accomodations, location } = models;
+const {
+  Accomodations, location, reviews, Users,
+} = models;
 /**
  * @exports
  * @class AccomodationsService
@@ -59,6 +61,16 @@ class AccomodationsService {
   static findById(modelId) {
     return Accomodations.findOne({
       where: { id: modelId },
+      include: {
+        model: reviews,
+        as: 'Reviews',
+        attributes: ['rate', 'comment'],
+        include: {
+          model: Users,
+          as: 'userInfo',
+          attributes: ['firstName', 'email', 'profilePicture'],
+        },
+      },
     });
   }
 

@@ -1,7 +1,7 @@
 import roomsService from '../services/roomsService';
 import accomodationService from '../services/accomodationService';
 import Util from '../helpers/utils';
-import { eventEmitter } from '../helpers/notifications/eventEmitter'
+import { eventEmitter } from '../helpers/notifications/eventEmitter';
 
 const util = new Util();
 
@@ -11,8 +11,8 @@ export default class controller {
       const roomInfos = {
         userId: req.userInfo.id,
         accomodation_id: req.body.accomodation_id,
-        checkIn: new Date(req.body.checkIn).setHours(0,0,0,0),
-        checkOut: new Date(req.body.checkOut).setHours(0,0,0,0),
+        checkIn: new Date(req.body.checkIn).setHours(0, 0, 0, 0),
+        checkOut: new Date(req.body.checkOut).setHours(0, 0, 0, 0),
 
       };
       const userId = roomInfos.userId;
@@ -67,19 +67,20 @@ export default class controller {
       util.send(res);
     }
   }
-  static async checkOutUser(){
+
+  static async checkOutUser() {
     const date = new Date();
-    const CheckingDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-    const roomsToBeAvailable = await roomsService.findByProp({ checkOut: CheckingDate});
-    if(roomsToBeAvailable){
-        roomsToBeAvailable.every(async (room) => { 
-            if(room.Status === 'active'){
-                await roomsService.updateAtt({ Status: 'inactive' }, { id: room.id }); 
-                const accomodationWithRommToFree = await accomodationService.findById(room.accomodation_id); 
-                await accomodationService.incrementRooms(accomodationWithRommToFree.id); 
-                eventEmitter.emit('checkoutMessage', { id:room.userId, accomodation_id: room.accomodation_id, checkoutDate: room.checkOut });
-            }
-        })
+    const CheckingDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    const roomsToBeAvailable = await roomsService.findByProp({ checkOut: CheckingDate });
+    if (roomsToBeAvailable) {
+      roomsToBeAvailable.every(async (room) => {
+        if (room.Status === 'active') {
+          await roomsService.updateAtt({ Status: 'inactive' }, { id: room.id });
+          const accomodationWithRommToFree = await accomodationService.findById(room.accomodation_id);
+          await accomodationService.incrementRooms(accomodationWithRommToFree.id);
+          eventEmitter.emit('checkoutMessage', { id: room.userId, accomodation_id: room.accomodation_id, checkoutDate: room.checkOut });
+        }
+      });
     }
   }
 }

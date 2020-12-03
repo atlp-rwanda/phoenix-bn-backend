@@ -10,11 +10,7 @@ import evenListeners from './helpers/notifications/eventListeners';
 require('./helpers/schedule');
 
 const app = express();
-const fileupload = require('express-fileupload');
 
-app.use(fileupload({
-  useTempFiles: true,
-}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());

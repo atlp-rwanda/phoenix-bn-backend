@@ -92,6 +92,7 @@ export default class controller {
       const tripToApprove = await tripsService.findById(requestId);
       if (!tripToApprove) {
         const error = new Error('The trips request you are trying to approve is not exist in our records');
+        error.statusCode = 500;
         throw error;
       }
       const approve = await tripsService.updateAtt({ status: 'approved' }, { id: requestId });

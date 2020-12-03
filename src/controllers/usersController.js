@@ -220,13 +220,8 @@ export default class user {
     try {
       const { id } = req.params;
       const users = await userService.getUsers(id);
-      if (users.length >= 1) {
-        const message = 'the users assigned to that manager are found';
-        util.setSuccess(200, message, users);
-        return util.send(res);
-      }
-      util.setError(400, 'The manager doesn\'t have users');
-
+      const message = 'the users assigned to that manager are found';
+      util.setSuccess(200, message, users);
       return util.send(res);
     } catch (error) {
       util.setError(500, error.message);
