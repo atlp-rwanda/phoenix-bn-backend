@@ -1,6 +1,7 @@
 import userService from '../services/userService';
 import Util from '../helpers/utils';
 import { cloudinaryUploader } from '../helpers/cloudinaryUploader';
+import 'dotenv/config';
 
 const util = new Util();
 const upload = async (req, res) => {

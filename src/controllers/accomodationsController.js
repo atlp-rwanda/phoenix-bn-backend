@@ -13,8 +13,8 @@ export default class controller {
         description: req.body.description,
         location_id: req.body.location_id,
         amenities: req.amenities,
-        numberOfRooms: req.body.numberOfRooms,
-        roomsAvailable: req.body.roomsAvailable,
+        capacity: req.body.capacity,
+        roomsLeft: req.body.roomsLeft,
         image,
       };
       const newAccomodation = await accomodationService.create(accomodation);

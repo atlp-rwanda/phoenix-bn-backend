@@ -10,7 +10,7 @@ import {
   sendPasswordResetLink,
 } from '../utils/sendPasswordLInk';
 import 'dotenv/config';
-import { decodeToken } from '../middlewares/verifications/verifyToken';
+import { eventEmitter } from '../helpers/notifications/eventEmitter';
 
 const util = new Util();
 export default class user {
@@ -204,6 +204,7 @@ export default class user {
       const lineManager = await userService.findByLineManagerId(lineManagerId);
       if (lineManager) {
         const update = await userService.updateAtt({ lineManager: lineManagerId }, { id: userId });
+        eventEmitter.emit('userAssignedToManager', { lineManagerId, userId });
         util.setSuccess('200', 'user is assigned to the manager');
         return util.send(res);
       }

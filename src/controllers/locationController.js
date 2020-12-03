@@ -26,7 +26,7 @@ export default class locations {
         const update = await locationService.updateAtt({ name }, { id });
         if (update) {
           util.setSuccess(200, 'Location Updated');
-          util.send(res);
+          return util.send(res);
         }
         util.setError(500, 'Failed to update location ');
         util.send(res);
@@ -48,14 +48,13 @@ export default class locations {
         const update = await locationService.deletelocation(id);
         if (update) {
           util.setSuccess(200, 'Location deleted!');
-          util.send(res);
+          return util.send(res);
         }
         util.setError(500, 'Failed to delete location ');
-        util.send(res);
-      } else {
-        util.setError(404, 'Location you want to delete doesn\'t exists');
-        util.send(res);
+        return util.send(res);
       }
+      util.setError(404, 'Location you want to delete doesn\'t exists');
+      util.send(res);
     } catch (error) {
       util.setError(500, error.message);
       util.send(res);

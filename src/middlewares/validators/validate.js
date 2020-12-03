@@ -282,14 +282,14 @@ export default class validator {
         location_id: req.body.location_id,
         amenities,
         image: req.body.image,
-        numberOfRooms: req.body.numberOfRooms,
-        roomsAvailable: req.body.roomsAvailable,
+        capacity: req.body.capacity,
+        roomsLeft: req.body.roomsLeft,
       };
       const { error } = accomodationSchema.validate(accomodationData);
       if (error) {
         const Error = error.details[0].message.replace('/', '').replace(/"/g, '');
         util.setError(400, Error);
-        util.send(res);
+        return util.send(res);
       }
       req.amenities = amenities;
       next();

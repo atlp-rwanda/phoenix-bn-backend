@@ -7,6 +7,7 @@ import trips from './trips/tripsRoute';
 import locations from './locations/locationsRoute';
 import accomodations from './accomodations/accomodationsRoutes';
 import comments from './comments/commentRouter';
+import notifications from './notifications/index';
 
 const router = express.Router();
 router.use('/users', user);
@@ -17,5 +18,6 @@ router.use('/trips', trips);
 router.use('/locations', locations);
 router.use('/accomodations', accomodations);
 router.use('/request', comments);
+router.use('/notifications', notifications);
 
 export default router;

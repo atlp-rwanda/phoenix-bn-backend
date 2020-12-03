@@ -54,8 +54,8 @@ class tripsService {
   }
 
   static cancelTrip(modelId) {
-    return trips.destroy({
-      where: { id: modelId, status: 'Rejected' },
+    return trips.update({ status: 'Canceled' }, {
+      where: { id: modelId },
     });
   }
 }

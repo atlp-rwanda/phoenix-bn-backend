@@ -43,8 +43,8 @@ export const accomodationSchema = joi.object({
   location_id: joi.number().required(),
   amenities: joi.array().min(1).required(),
   image: joi.string(),
-  roomsAvailable: joi.number().required().min(0),
-  numberOfRooms: joi.number().required().min(0),
+  roomsLeft: joi.number().required().min(0),
+  capacity: joi.number().required().min(0),
 
 });
 export const accomodationUpdateSchema = joi.object({
