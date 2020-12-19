@@ -11,7 +11,7 @@ const {
   createAccomodation, oneAccomodation, getAccomodationsBylocation, updatableFields, deleteAccomodations, getAccomodations, updateAccomodation,
 } = accomodationController;
 const router = express.Router();
-router.post('/', isAuthenticated,fileUploader.any(), allowedRoles([2]), validate.accomodation, verify.location, createAccomodation);
+router.post('/', isAuthenticated, fileUploader.any(), allowedRoles([2]), validate.accomodation, verify.location, createAccomodation);
 router.get('/:location_id', verify.location, getAccomodationsBylocation);
 router.get('/', isAuthenticated, allowedRoles([2]), getAccomodations);
 router.delete('/:accomodation', isAuthenticated, allowedRoles([2]), validate.Acommodation, deleteAccomodations);

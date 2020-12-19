@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -12,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'RoleId',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
+        as: 'roles',
         foreignKeyConstraint: true,
 
       });
@@ -26,6 +29,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         foreignKeyConstraint: true,
+      });
+      Users.belongsTo(models.Users, {
+        foreignKey: 'lineManager',
+        as: 'lineManagerInfo',
+        useJuctionTable: false,
       });
     }
   }

@@ -9,12 +9,11 @@ const googleAuth = async (req, res) => {
   const currentUser = await userService.findByEmail(emails[0].value);
   if (currentUser !== null) {
     if (currentUser.isVerified === false) {
-      res.redirect(`${process.env.FRONT_END_URL}/'socialAuth/failed'`);
+      res.redirect(`${process.env.FRONT_END_URL}/'socialAuth/failed:/auth'`);
     }
     const displayData = pick(currentUser.dataValues, ['id', 'firstName', 'lastName', 'email', 'socialId', 'provider']);
     const authToken = AuthTokenHelper.generateToken(displayData);
     userService.updateAtt({ authToken }, { email: displayData.email });
-    res.header('Authorization', authToken);
     const encodedToken = Buffer.from(authToken).toString('base64');
     res.redirect(`${process.env.FRONT_END_URL}/socialAuth/success/${encodedToken}`);
   }

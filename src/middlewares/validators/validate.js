@@ -67,6 +67,7 @@ export default class validator {
         });
         if (isVerified[0]) {
           util.setError(422, 'Your account is already verified');
+          res.redirect(`${process.env.FRONT_END_URL}/socialAuth/failed/verification`);
           return util.send(res);
         }
         res.id = data.userId;

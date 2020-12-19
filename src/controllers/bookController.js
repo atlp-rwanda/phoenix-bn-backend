@@ -70,7 +70,9 @@ export default class controller {
 
   static async checkOutUser() {
     const date = new Date();
-    const CheckingDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    const Month = ((1 + date.getMonth().len) > 1) ? date.getMonth() : `0${date.getMonth() + 1}`;
+    const Day = (date.getDate().len > 1) ? date.getDate() : `0${date.getDate()}`;
+    const CheckingDate = `${date.getFullYear()}-${Month}-${Day}`;
     const roomsToBeAvailable = await roomsService.findByProp({ checkOut: CheckingDate });
     if (roomsToBeAvailable) {
       roomsToBeAvailable.every(async (room) => {

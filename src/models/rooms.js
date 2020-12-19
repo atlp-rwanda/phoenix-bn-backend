@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const {
   Model,
 } = require('sequelize');
@@ -22,8 +24,16 @@ module.exports = (sequelize, DataTypes) => {
   Rooms.init({
     userId: DataTypes.INTEGER,
     accomodation_id: DataTypes.INTEGER,
-    checkIn: DataTypes.DATE,
-    checkOut: DataTypes.DATE,
+    checkIn: {
+      allowNull: false,
+      type: DataTypes.DATEONLY,
+      get: () => moment(this.getDataValue('checkIn')).format('DD/MM/YYYY h:mm:ss'),
+    },
+    checkOut: {
+      allowNull: false,
+      type: DataTypes.DATEONLY,
+      get: () => moment(this.getDataValue('checkOut')).format('DD/MM/YYYY h:mm:ss'),
+    },
     Status: DataTypes.STRING,
   }, {
     sequelize,

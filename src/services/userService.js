@@ -1,6 +1,7 @@
+import { Op } from 'sequelize';
 import models from '../models';
 
-const { Users } = models;
+const { Users, Roles } = models;
 /**
  * @exports
  * @class UserService
@@ -37,6 +38,30 @@ class UserService {
           isVerified: 'false',
         },
         attributes: ['id', 'email', 'RoleId', 'lineManager', 'isVerified'],
+      },
+    );
+  }
+
+  static getAllUsers(userId) {
+    return Users.findAll(
+      {
+        where: {
+          id: {
+            [Op.not]: userId,
+          },
+          RoleId: {
+            [Op.notIn]: [1, 2],
+          },
+        },
+        include: [{
+          as: 'lineManagerInfo',
+          model: Users,
+          attributes: ['firstName', 'lastName'],
+        }, {
+          as: 'roles',
+          model: Roles,
+          attributes: ['name'],
+        }],
       },
     );
   }

@@ -8,14 +8,18 @@ import accomodationService from '../../services/accomodationService';
 const findUserById = async (id) => await userServices.findById(id);
 const { notifyTheUser } = notificationController;
 eventEmitter.on('userAssignedToManager', async (payload) => {
-  const { lineManagerId, userId } = payload;
-  const lineManagerInfo = await findUserById(lineManagerId);
-  const userInfo = await findUserById(userId);
-  if (userInfo && lineManagerInfo) {
-    notifyTheUser({
-      receiver: userId,
-      message: `Hello! ${userInfo.firstName}  You have been assigned to ${lineManagerInfo.firstName} as your line manager`,
-    }, userInfo.email);
+  try {
+    const { lineManagerId, userId } = payload;
+    const lineManagerInfo = await findUserById(lineManagerId);
+    const userInfo = await findUserById(userId);
+    if (userInfo && lineManagerInfo) {
+      notifyTheUser({
+        receiver: userId,
+        message: `Hello! ${userInfo.firstName}  You have been assigned to ${lineManagerInfo.firstName} as your line manager`,
+      }, userInfo.email);
+    }
+  } catch (error) {
+    return error;
   }
 });
 
