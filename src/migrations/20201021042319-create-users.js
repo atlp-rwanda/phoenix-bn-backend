@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Users', {
@@ -39,14 +41,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
       socialId: {
         type: Sequelize.STRING,
       },
@@ -55,6 +49,16 @@ module.exports = {
       },
       authToken: {
         type: Sequelize.TEXT,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATEONLY,
+        get: () => moment(this.getDataValue('createdAt')).format('DD/MM/YYYY h:mm:ss'),
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATEONLY,
+        get: () => moment(this.getDataValue('updatedAt')).format('DD/MM/YYYY h:mm:ss'),
       },
     });
   },

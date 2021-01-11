@@ -12,22 +12,21 @@ import { fileUploader } from '../../../helpers/fileUploader';
 
 const router = express.Router();
 const { createUserValidation } = ValidationMiddleWare;
+router.get('/me/:token', usersController.myCredintials);
 router.post('/signup', validate.signupValidate, usersController.signupWithEmail);
 router.get('/verify/:token', validate.verifyEmail, usersController.verifyEmail);
 router.post('/login', createUserValidation, usersController.login);
 router.get('/login/:provider', getProvider);
-
 router.get('/signup/:provider', getProvider);
-
 router.post('/logout', authorizationValidator.isTokenExist, authorizationValidator.isTokenValid, authorizationValidator.isUserExists, usersController.userLogout);
-
 router.get('/auth/google/redirect', passport.authenticate('google', { session: false }), OAuth.googleAuth);
-router.get('/auth/facebook/callback', passport.authenticate('facebook', { session: false }), OAuth.facebookAuth);
+router.get('/auth/facebook/callback', passport.authenticate('facebook', { session: false }), OAuth.googleAuth);
 router.post('/forgot-password', validate.validateEmail, verification.email, usersController.resetPassword);
 router.put('/reset-password/:token', validate.passwordMatch, verification.tokenValid, usersController.changePassword);
 router.put('/changeRole/:id', isAuthenticated, allowedRoles([1]), validate.roleExist, usersController.changeRole);
 router.put('/manager/assign', isAuthenticated, allowedRoles([3]), usersController.assignUsers);
-router.get('/manager/:id', isAuthenticated, allowedRoles([3]), usersController.getUsers);
+router.get('/lineManagers', isAuthenticated, allowedRoles([3]), usersController.lineManagers);
+router.get('/', isAuthenticated, allowedRoles([3]), usersController.getAllUsers);
 router.put('/updateProfile', isAuthenticated, usersController.updateProfile);
 router.get('/profile/:id', isAuthenticated, usersController.getProfile);
 router.put('/upload', isAuthenticated, fileUploader.any(), fileController.upload);

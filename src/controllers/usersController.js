@@ -22,8 +22,11 @@ export default class user {
         lastName: req.body.lastName,
         email: req.body.email,
         password: hashedPassword,
+        updatedAt: new Date(),
+        createdAt: new Date(),
       };
       const createdUser = await userService.createuser(newUser);
+      console.log(JSON.stringify(new Date()));
       return sendLink(res, createdUser);
     } catch (error) {
       util.setError(500, error.message);
@@ -39,13 +42,12 @@ export default class user {
         id: res.id,
       });
       const {
-        id, isVerified, RoleId, email,
+        id, RoleId,
       } = await userService.findById(res.id);
       const token = await newJwtToken({ userId: id, RoleId }, '1h');
-      const data = { userId: id, email, token };
-      const message = 'your account was verified!';
-      util.setSuccess(200, message, data);
-      return util.send(res);
+      await userService.updateAtt({ authToken: token }, { id });
+      const encodedToken = Buffer.from(token).toString('base64');
+      res.redirect(`${process.env.FRONT_END_URL}/socialAuth/success/${encodedToken}`);
     } catch (error) {
       util.setError(500, error.message);
       return util.send(res);
@@ -113,11 +115,13 @@ export default class user {
       if (isMatch) {
         const displayData = pick(currentUser.dataValues, ['firstName', 'lastName', 'email', 'id', 'RoleId']);
         const authToken = AuthTokenHelper.generateToken(displayData);
-        userService.updateAtt({ authToken }, { email: displayData.email });
-        util.statusCode = 200;
-        util.type = 'success';
-        util.message = 'User Logged in Successfully';
-        util.data = { displayData, authToken };
+        await userService.updateAtt({ authToken }, { email: displayData.email });
+        const {
+          firstName, lastName, email, id, RoleId,
+        } = currentUser;
+        util.setSuccess(200, 'User Logged in Successfully', {
+          firstName, lastName, email, id, RoleId, authToken,
+        });
         return util.send(res);
       }
       util.setError(401, 'Incorrect username or password');
@@ -183,13 +187,8 @@ export default class user {
         const token = await newJwtToken(payload, '1h');
         await userService.updateAtt({ authToken: token }, { id: newUser.id });
 
-        util.setSuccess(200, 'Account created', {
-          email: newUser.email,
-          Id: newUser.id,
-          roleId: newUser.roleId,
-          token,
-        });
-        return util.send(res);
+        const encodedToken = Buffer.from(token).toString('base64');
+        res.redirect(`${process.env.FRONT_END_URL}/socialAuth/success/${encodedToken}`);
       }
     } catch (error) {
       util.setError(500, 'Failed to create your account');
@@ -203,7 +202,7 @@ export default class user {
       const { userId } = req.body;
       const lineManager = await userService.findByLineManagerId(lineManagerId);
       if (lineManager) {
-        const update = await userService.updateAtt({ lineManager: lineManagerId }, { id: userId });
+        await userService.updateAtt({ lineManager: lineManagerId }, { id: userId });
         eventEmitter.emit('userAssignedToManager', { lineManagerId, userId });
         util.setSuccess('200', 'user is assigned to the manager');
         return util.send(res);
@@ -267,6 +266,54 @@ export default class user {
       return util.send(res);
     } catch (error) {
       util.setError(500, 'can\'t retrieve the data');
+      return util.send(res);
+    }
+  }
+
+  static async myCredintials(req, res) {
+    try {
+      const { token } = req.params;
+      if (token) {
+        const userInfo = await userService.findByProp({ authToken: token });
+        if (userInfo[0]) {
+          const {
+            firstName, lastName, email, id, RoleId, authToken,
+          } = userInfo[0];
+          util.setSuccess(200, 'LoggedIn', {
+            firstName, lastName, email, id, RoleId, authToken,
+          });
+        } else {
+          util.setError(401, 'AUhtentication failed');
+        }
+        return util.send(res);
+      }
+      util.setError(400, 'Invalid Token');
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  static async getAllUsers(req, res) {
+    try {
+      const { id } = req.userInfo;
+      const users = await userService.getAllUsers(id);
+      util.setSuccess(200, 'success', users);
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  static async lineManagers(req, res) {
+    try {
+      const users = await userService.findByProp({ RoleId: 4 });
+      util.setSuccess(200, 'success', users);
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
       return util.send(res);
     }
   }

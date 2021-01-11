@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const {
   Model,
 } = require('sequelize');
@@ -47,7 +49,6 @@ module.exports = (sequelize, DataTypes) => {
     capacity: DataTypes.INTEGER,
     roomsLeft: DataTypes.INTEGER,
     averageRating: DataTypes.DOUBLE,
-
   }, {
     sequelize,
     modelName: 'Accomodations',

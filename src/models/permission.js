@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const {
   Model,
 } = require('sequelize');
@@ -15,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Permission.init({
     name: DataTypes.STRING,
+
   }, {
     sequelize,
     modelName: 'Permission',
